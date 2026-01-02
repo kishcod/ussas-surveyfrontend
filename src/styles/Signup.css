@@ -1,0 +1,141 @@
+/* ---------- Page Container / Background ---------- */
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('/background.jpg') no-repeat center center/cover;
+  position: relative;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+}
+
+/* Optional overlay for readability */
+.page-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4); /* semi-transparent dark overlay */
+  z-index: 0;
+}
+
+/* ---------- Card / Form Wrapper ---------- */
+.card {
+  background-color: #fff;
+  padding: 40px 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  z-index: 1; /* ensure card is above overlay */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+/* ---------- Card Title ---------- */
+.card-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+/* ---------- Form Styles ---------- */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input {
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+}
+
+/* ---------- Labels ---------- */
+.label {
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+}
+
+/* ---------- Button Styles ---------- */
+.button {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #667eea;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.button:hover {
+  background: #5a67d8;
+  transform: translateY(-2px);
+}
+
+/* ---------- Text and Links ---------- */
+.text-center {
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+}
+
+.link {
+  color: #667eea;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.link:hover {
+  color: #5a67d8;
+  text-decoration: underline;
+  transform: translateY(-1px);
+}
+.us-check {
+  margin-bottom: 16px;
+}
+
+.us-check label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 6px;
+  color: #111;
+}
+
+.radio-group {
+  display: flex;
+  gap: 20px;
+}
+
+.radio-group label {
+  font-weight: normal;
+  color: #333;
+  cursor: pointer;
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 6px;
+}

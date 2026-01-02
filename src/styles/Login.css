@@ -1,0 +1,90 @@
+/* Login container with background image */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('/background.jpg') no-repeat center center/cover;
+  position: relative;
+  padding: 20px;
+}
+
+/* Optional overlay for readability */
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* semi-transparent dark overlay */
+  z-index: 0;
+}
+
+/* Card styling */
+.login-card {
+  background: #ffffff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+  z-index: 1; /* make sure card is above overlay */
+}
+
+/* Title */
+.login-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #1e293b;
+}
+
+/* Inputs */
+.login-input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.login-input:focus {
+  border-color: #3b82f6;
+}
+
+/* Button */
+.login-button {
+  width: 100%;
+  padding: 12px 15px;
+  background-color: #3b82f6;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-button:hover {
+  background-color: #2563eb;
+}
+
+/* Footer and link */
+.login-footer {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.login-link {
+  color: #3b82f6;
+  cursor: pointer;
+  text-decoration: underline;
+}
