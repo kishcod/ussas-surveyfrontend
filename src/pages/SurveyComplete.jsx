@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/SurveyComplete.css";
+import "../styles/surveycomplete.css";
 
 export default function SurveyComplete({ reward, onClose }) {
   return (

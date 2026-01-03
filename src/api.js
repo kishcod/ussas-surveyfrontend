@@ -1,4 +1,7 @@
-const API_URL = "http://localhost:4000";
+const API = import.meta.env.VITE_API_URL;
+
+export default API;
+
 
 // REGISTER
 export async function registerUser(data) {
