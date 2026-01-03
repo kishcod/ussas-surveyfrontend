@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Dashboard.css";
-import "../styles/surveycomplete.css";
+import "../styles/Surveycomplete.css";
 import logo from "../assets/logo.png"; // Make sure your logo.png is in src/assets
 
 const API = import.meta.env.VITE_API || "http://localhost:4000";
