@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/withdraw.css";
+const API = import.meta.env.VITE_API
 
 export default function Withdraw() {
   const { state } = useLocation();
