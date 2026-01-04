@@ -1,11 +1,9 @@
-const API = import.meta.env.VITE_API_URL;
-
+const API = import.meta.env.VITE_API_URL || "http://localhost:4000";
 export default API;
-
 
 // REGISTER
 export async function registerUser(data) {
-  const res = await fetch(`${API_URL}/api/register`, {
+  const res = await fetch(`${API}/api/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -15,7 +13,7 @@ export async function registerUser(data) {
 
 // LOGIN
 export async function loginUser(data) {
-  const res = await fetch(`${API_URL}/api/login`, {
+  const res = await fetch(`${API}/api/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -23,9 +21,10 @@ export async function loginUser(data) {
   return res.json();
 }
 
+// GET SURVEYS
 export async function getSurveys() {
   const token = localStorage.getItem("token");
-  const res = await fetch("http://localhost:4000/api/surveys", {
+  const res = await fetch(`${API}/api/surveys`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -33,10 +32,9 @@ export async function getSurveys() {
   return res.json();
 }
 
-
 // COMPLETE SURVEY
 export async function completeSurvey(user_id, survey_id) {
-  const res = await fetch(`${API_URL}/api/complete-survey`, {
+  const res = await fetch(`${API}/api/complete-survey`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ user_id, survey_id }),
@@ -46,13 +44,13 @@ export async function completeSurvey(user_id, survey_id) {
 
 // GET BALANCE
 export async function getBalance(user_id) {
-  const res = await fetch(`${API_URL}/api/balance/${user_id}`);
+  const res = await fetch(`${API}/api/balance/${user_id}`);
   return res.json();
 }
 
 // WITHDRAW
 export async function withdrawBalance(user_id, amount, method) {
-  const res = await fetch(`${API_URL}/api/withdraw`, {
+  const res = await fetch(`${API}/api/withdraw`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ user_id, amount, method }),
