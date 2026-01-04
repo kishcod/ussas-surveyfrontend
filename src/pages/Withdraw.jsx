@@ -33,7 +33,8 @@ export default function Withdraw() {
         setFxError(false);
 
         const res = await fetch(
-         `http://localhost:4000/api/fx/convert?amount=${amount}&to=${currency}`,
+     
+  `${API}/api/fx/convert?amount=${amount}&to=${currency}`,
           { signal: controller.signal }
         );
 

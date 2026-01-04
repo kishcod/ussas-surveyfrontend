@@ -4,7 +4,7 @@ import "../styles/Dashboard.css";
 import "../styles/SurveyComplete.css";
 import logo from "../assets/logo.png"; // Make sure your logo.png is in src/assets
 
-const API = import.meta.env.VITE_API || "http://localhost:4000";
+import API from "../api";
 
 export default function Dashboard() {
   const [surveys, setSurveys] = useState([]);

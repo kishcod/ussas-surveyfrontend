@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-
-const API = import.meta.env.VITE_API || "http://localhost:4000";
-
+import API from "../api";
 export default function SurveysAdmin() {
   const token = localStorage.getItem("token");
 
