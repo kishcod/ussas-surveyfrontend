@@ -515,7 +515,7 @@ body {
 
 .survey-card p {
   margin: 0.25rem 0 0;
-  color: #555;
+  color: #9b9999;
 }
 
 /* Complete Survey button */
@@ -870,7 +870,7 @@ body {
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  gap: 1rem;
   padding: 1rem 0;
   font-size: 1.5rem;
   color: white;
@@ -880,7 +880,7 @@ body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -909,7 +909,7 @@ body {
 /* Footer icons */
 .landing-footer {
   position: absolute; /* Fix at bottom of page */
-  bottom: 30px;
+  bottom: 20px;
   width: 100%;
   display: flex;
   justify-content: center;
