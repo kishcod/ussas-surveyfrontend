@@ -213,13 +213,13 @@ html, body, #root {
 .survey-question {
   margin-bottom: 20px;
   padding: 14px;
-  background: #0f1f2f;
+  background: #dedde0e0;
   border-radius: 10px;
 }
 
 
 .survey-question label {
-  font-weight: 600;
+  font-weight: 800;
   display: block;
   margin-bottom: 5px;
 }

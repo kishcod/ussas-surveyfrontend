@@ -7,34 +7,43 @@ export default function Login() {
   const [email, setEmail] = useState(""); // backend expects email
   const [password, setPassword] = useState("");
   const nav = useNavigate();
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = async () => {
-    try {
-      // send email & password (backend expects email)
-      const res = await loginUser({ email, password });
 
-      if (!res.token) {
-        alert(res.message || "Login failed");
-        return;
-      }
+const handleLogin = async () => {
+  if (loading) return;
 
-      // Save JWT token locally
-      localStorage.setItem("token", res.token);
+  try {
+    setLoading(true);
 
-      // Save user info locally
-      localStorage.setItem("user", JSON.stringify(res.user));
+    // send email & password (backend expects email)
+    const res = await loginUser({ email, password });
 
-      // Redirect based on admin flag
-      if (res.user.is_admin) {
-        nav("/admin"); // Admin dashboard
-      } else {
-        nav("/dashboard"); // Regular user dashboard
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Login failed. Check console for details.");
+    if (!res.token) {
+      alert(res.message || "Login failed");
+      return;
     }
-  };
+
+    // Save JWT token
+    localStorage.setItem("token", res.token);
+
+    // Save user info
+    localStorage.setItem("user", JSON.stringify(res.user));
+
+    // Redirect based on admin flag
+    if (res.user.is_admin) {
+      nav("/admin");
+    } else {
+      nav("/dashboard");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Login failed. Check console for details.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="login-container">
@@ -57,9 +66,20 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className="login-button" onClick={handleLogin}>
-          Login
-        </button>
+      <button
+  className={`login-button ${loading ? "loading" : ""}`}
+  onClick={handleLogin}
+  disabled={loading}
+>
+  {loading ? (
+    <>
+      <span className="spinner"></span>
+      Please wait
+    </>
+  ) : (
+    "Login"
+  )}
+</button>
 
         <p className="login-footer">
           Don't have an account?{" "}

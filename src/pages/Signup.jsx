@@ -12,30 +12,40 @@ export default function Signup() {
     referral_code: "", // optional, matches backend
     isUSA: "", // new field for US check
   });
+  const [loading, setLoading] = useState(false);
+
 
   const nav = useNavigate();
 
-  const handleSubmit = async () => {
-    if (form.isUSA !== "yes") {
-      alert("Only USA users allowed.");
+const handleSubmit = async (e) => {
+  e.preventDefault(); // prevent default form submission
+
+  if (loading) return; // prevent double clicks
+
+  if (form.isUSA !== "yes") {
+    alert("Only USA users allowed.");
+    return;
+  }
+
+  try {
+    setLoading(true);
+
+    const res = await registerUser(form);
+
+    if (res.error) {
+      alert(res.error);
       return;
     }
 
-    try {
-      const res = await registerUser(form);
-
-      if (res.error) {
-        alert(res.error);
-        return;
-      }
-
-      alert(res.message || "Account created successfully!");
-      nav("/login");
-    } catch (err) {
-      console.error(err);
-      alert("Signup failed. Check console for details.");
-    }
-  };
+    alert(res.message || "Account created successfully!");
+    nav("/login");
+  } catch (err) {
+    console.error(err);
+    alert("Signup failed. Check console for details.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="page-container">
@@ -110,9 +120,16 @@ export default function Signup() {
             </div>
           </div>
 
-          <button type="submit" className="button">
-            Create Account
-          </button>
+        <button type="submit" className="button" disabled={loading}>
+  {loading ? (
+    <>
+      <span className="spinner"></span> Please wait
+    </>
+  ) : (
+    "Create Account"
+  )}
+</button>
+
         </form>
 
         <p className="text-center mt-4">
