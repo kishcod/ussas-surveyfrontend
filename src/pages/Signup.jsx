@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Signup.css";
 
 export default function Signup() {
+    const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -12,28 +13,25 @@ export default function Signup() {
     referral_code: "", // optional, matches backend
     isUSA: "", // new field for US check
   });
-  const [loading, setLoading] = useState(false);
+
 
 
   const nav = useNavigate();
 
 const handleSubmit = async (e) => {
-  e.preventDefault(); // prevent default form submission
-
-  if (loading) return; // prevent double clicks
-
+  e.preventDefault(); // <--- Prevent default form submit page reload
   if (form.isUSA !== "yes") {
     alert("Only USA users allowed.");
     return;
   }
 
   try {
-    setLoading(true);
-
+    setLoading(true); // show spinner
     const res = await registerUser(form);
 
     if (res.error) {
       alert(res.error);
+      setLoading(false);
       return;
     }
 
@@ -120,16 +118,9 @@ const handleSubmit = async (e) => {
             </div>
           </div>
 
-        <button type="submit" className="button" disabled={loading}>
-  {loading ? (
-    <>
-      <span className="spinner"></span> Please wait
-    </>
-  ) : (
-    "Create Account"
-  )}
-</button>
-
+          <button type="submit" className="button">
+    {loading ? <span className="spinner"></span> : "Create Account"}
+  </button>
         </form>
 
         <p className="text-center mt-4">
