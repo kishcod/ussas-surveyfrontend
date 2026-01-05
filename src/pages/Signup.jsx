@@ -9,70 +9,66 @@ export default function Signup() {
     email: "",
     username: "",
     password: "",
-    referral_code: "", // optional, matches backend
-    isUSA: "", // new field for US check
+    referral_code: "",
+    isUSA: "", // US check
   });
 
-const [loading, setLoading] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const nav = useNavigate();
 
-const handleSubmit = async (e) => {
-  e.preventDefault(); // <--- Prevent default form submit page reload
-  if (form.isUSA !== "yes") {
-    alert("Only USA users allowed.");
-    return;
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // prevent page reload
 
-  try {
-    setLoading(true); // show spinner
-    const res = await registerUser(form);
-
-    if (res.error) {
-      alert(res.error);
-      setLoading(false);
+    if (form.isUSA !== "yes") {
+      alert("Only USA users allowed.");
       return;
     }
 
-    alert(res.message || "Account created successfully!");
-    nav("/login");
-  } catch (err) {
-    console.error(err);
-    alert("Signup failed. Check console for details.");
-  } finally {
-    setLoading(false);
-  }
-};
+    try {
+      setLoading(true); // show spinner
+      const res = await registerUser(form);
+
+      if (res.error) {
+        alert(res.error);
+        return;
+      }
+
+      alert(res.message || "Account created successfully!");
+      nav("/login");
+    } catch (err) {
+      console.error(err);
+      alert("Signup failed. Check console for details.");
+    } finally {
+      setLoading(false); // hide spinner
+    }
+  };
 
   return (
     <div className="page-container">
       <div className="card">
         <h2 className="card-title">Sign Up</h2>
 
-        <form
-          className="form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit();
-          }}
-        >
+        <form className="form" onSubmit={handleSubmit}>
           <input
             className="input"
             placeholder="Full Name"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
+            required
           />
           <input
             className="input"
             placeholder="Email"
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
+            required
           />
           <input
             className="input"
             placeholder="Username"
             value={form.username}
             onChange={(e) => setForm({ ...form, username: e.target.value })}
+            required
           />
           <input
             className="input"
@@ -80,6 +76,7 @@ const handleSubmit = async (e) => {
             type="password"
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
+            required
           />
           <input
             className="input"
@@ -117,9 +114,9 @@ const handleSubmit = async (e) => {
             </div>
           </div>
 
-          <button type="submit" className="button">
-    {loading ? <span className="spinner"></span> : "Create Account"}
-  </button>
+          <button type="submit" className="button" disabled={loading}>
+            {loading ? <span className="spinner"></span> : "Create Account"}
+          </button>
         </form>
 
         <p className="text-center mt-4">
@@ -132,3 +129,4 @@ const handleSubmit = async (e) => {
     </div>
   );
 }
+
