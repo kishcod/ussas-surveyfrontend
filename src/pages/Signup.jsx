@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Signup.css";
 
 export default function Signup() {
-    const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -14,7 +13,7 @@ export default function Signup() {
     isUSA: "", // new field for US check
   });
 
-
+const [loading, setLoading] = useState(false);
 
   const nav = useNavigate();
 
