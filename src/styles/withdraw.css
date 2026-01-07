@@ -188,8 +188,9 @@
 }
 
 .balance {
-  font-size: 30px;
+  font-size: 15px; 
   color: #4fafff;
+  font-weght: 400;
 }
 .conversion-box {
   text-align: center;
