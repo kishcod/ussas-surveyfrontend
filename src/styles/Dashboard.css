@@ -122,13 +122,13 @@ html, body, #root {
 
 
 .surveys-grid {
-  width: 130%;
+  width: 100%;
   display: grid;
   flex-grow: 1;
   grid-template-columns: repeat(2, 1fr); /* Force 2 columns */
-  gap: 24px;
+  gap: 23px;
   align-content: start;
-  colour:white
+  colour:indigo;
 }
 
 /* Responsive: for small screens, 1 per line */
