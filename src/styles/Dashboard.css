@@ -122,7 +122,7 @@ html, body, #root {
 
 
 .surveys-grid {
-  width: 100%;
+  width: 130%;
   display: grid;
   flex-grow: 1;
   grid-template-columns: repeat(2, 1fr); /* Force 2 columns */
@@ -437,7 +437,7 @@ html, body, #root {
 /* Survey price glow */
 .survey-price {
   font-weight: 700;
-  font-size: 18px;
+  font-size: 14px;
   color: #ffffff;
   text-shadow: 
     0 0 5px #4fafff,
