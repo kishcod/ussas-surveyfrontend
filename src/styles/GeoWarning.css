@@ -1,7 +1,7 @@
 /* ========== PAGE BACKGROUND ========== */
 .geo-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  background: linear-gradient(135deg, #01040e, #f8fafc);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,8 +65,8 @@
 /* ========== PROXY GRID ========== */
 .proxy-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 23px;
 }
 
 /* ========== PROXY CARD ========== */
@@ -92,7 +92,7 @@
 
 /* ========== PROXY IMAGE ========== */
 .proxy-card img {
-  width: 110px;
+  width: 100px;
   height: auto;
   margin-bottom: 14px;
 }
