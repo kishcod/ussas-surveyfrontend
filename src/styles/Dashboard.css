@@ -396,12 +396,12 @@ html, body, #root {
   /* Surveys one column */
   .surveys-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 15px;
   }
 
   /* Survey cards spacing */
   .survey-card {
-    padding: 18px;
+    padding: 17px;
   }
 
   /* Survey form full width */
