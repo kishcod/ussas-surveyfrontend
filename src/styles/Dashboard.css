@@ -97,7 +97,7 @@ html, body, #root {
 
 .withdraw-btn {
   margin-top: 14px;
-  padding: 10px 28px;
+  padding: 10px 26px;
   border-radius: 999px;
   background: linear-gradient(135deg, #090c30, #16a34a);
   color: #ffffff;
@@ -175,8 +175,8 @@ html, body, #root {
 }
 
 .survey-card button {
-  padding: 6px 18px;
-  border-radius: 8px;
+  padding: 6px 15px;
+  border-radius: 7px;
   font-weight: 600;
   border: none;
   cursor: pointer;
@@ -321,7 +321,7 @@ html, body, #root {
   }
 
   .survey-card {
-    padding: 20px;
+    padding: 18px;
   }
 
   .survey-form {
