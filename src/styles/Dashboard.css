@@ -97,7 +97,7 @@ html, body, #root {
 
 .withdraw-btn {
   margin-top: 14px;
-  padding: 12px 30px;
+  padding: 10px 28px;
   border-radius: 999px;
   background: linear-gradient(135deg, #090c30, #16a34a);
   color: #ffffff;
@@ -126,12 +126,12 @@ html, body, #root {
   display: grid;
   flex-grow: 1;
   grid-template-columns: repeat(2, 1fr); /* Force 2 columns */
-  gap: 24px;
+  gap: 23px;
   align-content: start;
 }
 
 /* Responsive: for small screens, 1 per line */
-@media (max-width: 768px) {
+@media (max-width: 760px) {
   .surveys-grid {
     grid-template-columns: 1fr; /* Stack vertically on mobile */
     gap: 16px;
@@ -165,7 +165,7 @@ html, body, #root {
 .survey-card h3 {
   margin-bottom: 10px;
   font-size: 20px;
-  color: #fff;
+  color: #0c0c0cf5;
 }
 
 .survey-card p {
