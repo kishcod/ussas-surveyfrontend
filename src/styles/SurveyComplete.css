@@ -13,9 +13,9 @@
 
 .survey-modal-card {
   background-color: #ffffff;
-  border-radius: 24px;
-  padding: 32px;
-  max-width: 400px;
+  border-radius: 20px;
+  padding: 28px;
+  max-width: 350px;
   width: 90%;
   text-align: center;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
@@ -33,16 +33,16 @@
 }
 
 .survey-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   color: #1f2937;
   margin-bottom: 12px; 
 }
 
 .survey-message {
-  font-size: 16px;
+  font-size: 14px;
   color: #4b5563;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .survey-reward {
@@ -50,8 +50,8 @@
   color: #047857;
   font-weight: 600;
   padding: 12px;
-  border-radius: 12px;
-  margin-bottom: 24px;
+  border-radius: 10px;
+  margin-bottom: 23px;
   font-size: 18px;
 }
 
