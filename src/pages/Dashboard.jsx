@@ -304,13 +304,19 @@ export default function Dashboard() {
       <div key={q.id} className="survey-question">
         <label>{q.question}</label>
 
-     {q.type === "text" || q.type === "number" ? (
+    {/* TEXT / NUMBER */}
+{(q.type === "text" || q.type === "number") && (
   <input
     type={q.type}
     value={answers[q.id] || ""}
-    onChange={(e) => handleAnswerChange(q.id, e.target.value)}
+    onChange={(e) =>
+      handleAnswerChange(q.id, e.target.value)
+    }
   />
-) : q.type === "radio" && q.options ? (
+)}
+
+{/* RADIO */}
+{q.type === "radio" && q.options && (
   JSON.parse(q.options).map((opt, idx) => (
     <label key={idx} className="radio-option">
       <input
@@ -318,27 +324,35 @@ export default function Dashboard() {
         name={`q${q.id}`}
         value={opt}
         checked={answers[q.id] === opt}
-        onChange={(e) => handleAnswerChange(q.id, e.target.value)}
+        onChange={(e) =>
+          handleAnswerChange(q.id, e.target.value)
+        }
       />
       {opt}
     </label>
   ))
-) : q.type === "scale" ? (
+)}
+
+{/* SCALE (⭐ THIS WAS MISSING ⭐) */}
+{q.type === "scale" && (
   <div className="scale-options">
     {[1, 2, 3, 4, 5].map((val) => (
-      <label key={val}>
+      <label key={val} className="scale-option">
         <input
           type="radio"
           name={`q${q.id}`}
           value={val}
           checked={answers[q.id] == val}
-          onChange={(e) => handleAnswerChange(q.id, e.target.value)}
+          onChange={(e) =>
+            handleAnswerChange(q.id, e.target.value)
+          }
         />
         {val}
       </label>
     ))}
   </div>
-) : null}
+)}
+
   
 
   {/* Navigation buttons */}
