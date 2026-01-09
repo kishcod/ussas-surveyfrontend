@@ -135,7 +135,7 @@ html, body, #root {
 @media (max-width: 760px) {
   .surveys-grid {
     grid-template-columns: 1fr; /* Stack vertically on mobile */
-    gap: 15px;
+    gap: 16px;
   }
 }
 
@@ -295,7 +295,7 @@ html, body, #root {
   background-color: #3a90cc;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .dashboard-header {
     flex-direction: column;
     align-items: center;
@@ -321,7 +321,7 @@ html, body, #root {
   }
 
   .survey-card {
-    padding: 18px;
+    padding: 23px;
   }
 
   .survey-form {
