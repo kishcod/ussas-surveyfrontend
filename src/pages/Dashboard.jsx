@@ -15,6 +15,8 @@ export default function Dashboard() {
   const [lastReward, setLastReward] = useState(0);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [balanceGlow, setBalanceGlow] = useState(false);
+
 
   const storedUser = JSON.parse(localStorage.getItem("user")) || {};
   const token = localStorage.getItem("token") || "";
