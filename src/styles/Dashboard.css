@@ -655,5 +655,55 @@ html, body, #root {
 .cancel-btn { background-color: #ef4444; color: white; }
 .cancel-btn:hover { background-color: #b91c1c; }
 
+/* ===== Survey Inputs ===== */
+
+/* Container for radio buttons */
+.radio-group {
+  display: flex;          /* use flexbox */
+  flex-direction: column; /* stack vertically */
+  gap: 10px;              /* space between options */
+  margin-top: 8px;
+}
+
+/* Individual radio option */
+.radio-option {
+  display: flex;
+  align-items: center; /* vertically center input and label text */
+  gap: 8px;            /* space between radio button and text */
+  cursor: pointer;
+  font-size: 16px;
+  color: #111827;       /* dark text */
+  padding: 6px 0;       /* spacing inside each option */
+  transition: background 0.2s;
+}
+
+.radio-option:hover {
+  background: rgba(0, 85, 255, 0.05); /* subtle hover effect */
+  border-radius: 6px;
+}
+
+/* Radio input styling */
+.radio-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #0055ff; /* blue color for checked circle */
+  cursor: pointer;
+}
+
+/* Responsive tweak for small screens */
+@media (max-width: 480px) {
+  .radio-group {
+    gap: 8px;
+  }
+  .radio-option {
+    font-size: 14px;
+  }
+  .radio-option input[type="radio"] {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+
 
 
