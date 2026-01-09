@@ -1011,3 +1011,28 @@ body {
     font-size: 13px;
   }
 }
+
+/* Ensure radio buttons stack vertically */
+.radio-group,
+.scale-options {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+/* Individual options */
+.radio-option,
+.scale-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* Optional: for scale numbers below input */
+.scale-option {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
