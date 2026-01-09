@@ -15,8 +15,6 @@ export default function Dashboard() {
   const [lastReward, setLastReward] = useState(0);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [balanceGlow, setBalanceGlow] = useState(false);
-
 
   const storedUser = JSON.parse(localStorage.getItem("user")) || {};
   const token = localStorage.getItem("token") || "";
@@ -25,7 +23,8 @@ export default function Dashboard() {
   const displayName = storedUser.username || storedUser.email || "Guest";
   const referralLink = `${window.location.origin}/signup?ref=${storedUser.username || ""}`;
 
-  /* ================= LOAD DATA ================= */
+  /* ================= FETCH DATA ================= */
+
   useEffect(() => {
     if (!token) return;
     fetchSurveys();
@@ -34,30 +33,23 @@ export default function Dashboard() {
   }, []);
 
   const fetchSurveys = async () => {
-    try {
-      const res = await fetch(`${API}/api/surveys`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-      setSurveys(Array.isArray(data) ? data : []);
-    } catch (err) {
-      console.error(err);
-    }
+    const res = await fetch(`${API}/api/surveys`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+    setSurveys(Array.isArray(data) ? data : []);
   };
 
   const fetchBalance = async () => {
-    try {
-      const res = await fetch(`${API}/api/balance`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-      setBalance(Number(data.balance) || 0);
-    } catch {
-      setBalance(0);
-    }
+    const res = await fetch(`${API}/api/balance`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await res.json();
+    setBalance(Number(data.balance) || 0);
   };
 
   /* ================= PROFILE ================= */
+
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -75,19 +67,17 @@ export default function Dashboard() {
   };
 
   /* ================= SURVEY ================= */
+
   const openSurvey = async (survey) => {
-    try {
-      const res = await fetch(
-        `${API}/api/surveys/${survey.id}/questions`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      const questions = await res.json();
-      setActiveSurvey({ survey, questions });
-      setAnswers({});
-      setCurrentIndex(0);
-    } catch {
-      alert("Failed to open survey");
-    }
+    const res = await fetch(
+      `${API}/api/surveys/${survey.id}/questions`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    const questions = await res.json();
+
+    setActiveSurvey({ survey, questions });
+    setAnswers({});
+    setCurrentIndex(0);
   };
 
   const handleAnswerChange = (id, value) => {
@@ -108,61 +98,56 @@ export default function Dashboard() {
       answer: answers[q.id],
     }));
 
-    try {
-      const res = await fetch(
-        `${API}/api/surveys/${activeSurvey.survey.id}/submit`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ answers: payload }),
-        }
-      );
-
-      const data = await res.json();
-
-      if (res.ok && data.success) {
-        setLastReward(activeSurvey.survey.reward || 0);
-        setShowSurveyComplete(true);
-        setActiveSurvey(null);
-        setAnswers({});
-        fetchBalance();
-        fetchSurveys();
-      } else {
-        alert(data.message || "Submission failed");
+    const res = await fetch(
+      `${API}/api/surveys/${activeSurvey.survey.id}/submit`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ answers: payload }),
       }
-    } catch {
-      alert("Submission error");
+    );
+
+    const data = await res.json();
+
+    if (res.ok && data.success) {
+      setLastReward(activeSurvey.survey.reward);
+      setShowSurveyComplete(true);
+      setActiveSurvey(null);
+      setAnswers({});
+      fetchBalance();
+      fetchSurveys();
+    } else {
+      alert(data.message || "Submission failed");
     }
   };
 
   /* ================= RENDER ================= */
+
   return (
     <div className="dashboard-container">
 
       {/* ===== HEADER ===== */}
       <div className="dashboard-header">
-
-        {/* Profile */}
         <div className="profile-section">
           <div
             className="profile-photo-wrapper"
             onClick={() => document.getElementById("photoInput").click()}
           >
             {profilePhoto ? (
-              <img src={profilePhoto} alt="Profile" className="profile-photo" />
+              <img src={profilePhoto} className="profile-photo" />
             ) : (
               <div className="profile-placeholder">
-                {displayName[0].toUpperCase()}
+                {displayName[0]}
               </div>
             )}
           </div>
 
           <input
-            type="file"
             id="photoInput"
+            type="file"
             hidden
             onChange={handlePhotoUpload}
           />
@@ -177,42 +162,27 @@ export default function Dashboard() {
           </button>
 
           <div className="referral-box">
-            <p>Your Referral Link</p>
-            <div className="referral-row">
-              <input value={referralLink} readOnly />
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(referralLink);
-                  alert("Copied!");
-                }}
-              >
-                Copy
-              </button>
-            </div>
+            <p>Referral Link</p>
+            <input value={referralLink} readOnly />
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(referralLink);
+                alert("Copied!");
+              }}
+            >
+              Copy
+            </button>
           </div>
         </div>
 
-        {/* Brand */}
         <div className="brand-bar">
-          <img src={logo} alt="Logo" className="brand-logo" />
-          <h1>US SaaS Survey Educational Research</h1>
+          <img src={logo} className="brand-logo" />
+          <h1>US SaaS Survey</h1>
         </div>
 
-        {/* Balance */}
         <div className="balance-section">
-          <h2>Balance: ${balance.toFixed(2)}</h2>
-          <button
-            className="withdraw-btn"
-            onClick={() =>
-              navigate("/withdraw", {
-                state: {
-                  balance,
-                  profilePhoto,
-                  username: displayName,
-                },
-              })
-            }
-          >
+          <h2>${balance.toFixed(2)}</h2>
+          <button onClick={() => navigate("/withdraw")}>
             Withdraw
           </button>
         </div>
@@ -220,38 +190,20 @@ export default function Dashboard() {
 
       {/* ===== SURVEYS ===== */}
       {!activeSurvey ? (
-        <>
-          <h2 className="section-title">Available Surveys</h2>
-          <div className="surveys-grid">
-            {surveys.length ? (
-              surveys.map((s) => (
-                <div key={s.id} className="survey-card">
-                  <h3>{s.title}</h3>
-                  <p>💰 Reward: ${s.reward}</p>
-                  <p>⏱ Estimated time: {s.estimated_time || 10} min</p>
-                  <button
-                    className="do-survey-btn"
-                    onClick={() => openSurvey(s)}
-                  >
-                    Do Survey
-                  </button>
-                </div>
-              ))
-            ) : (
-              <p className="no-surveys-msg">
-                No surveys available at the moment.
-              </p>
-            )}
-          </div>
-        </>
+        <div className="surveys-grid">
+          {surveys.map((s) => (
+            <div key={s.id} className="survey-card">
+              <h3>{s.title}</h3>
+              <p>💰 ${s.reward}</p>
+              <p>⏱ {s.estimated_time || 10} min</p>
+              <button onClick={() => openSurvey(s)}>
+                Do Survey
+              </button>
+            </div>
+          ))}
+        </div>
       ) : (
         <div className="survey-form">
-
-          <div className="survey-progress">
-            Page {Math.floor(currentIndex / 2) + 1} of{" "}
-            {Math.ceil(activeSurvey.questions.length / 2)}
-          </div>
-
           <h2>{activeSurvey.survey.title}</h2>
 
           {activeSurvey.questions
@@ -262,8 +214,8 @@ export default function Dashboard() {
 
                 {(q.type === "text" || q.type === "number") && (
                   <input
-                    className="survey-input"
                     type={q.type}
+                    className="survey-input"
                     value={answers[q.id] || ""}
                     onChange={(e) =>
                       handleAnswerChange(q.id, e.target.value)
@@ -274,7 +226,7 @@ export default function Dashboard() {
                 {q.type === "radio" && (
                   <div className="radio-group">
                     {JSON.parse(q.options).map((opt, i) => (
-                      <label key={i} className="radio-option">
+                      <label key={i}>
                         <input
                           type="radio"
                           name={`q${q.id}`}
@@ -283,7 +235,7 @@ export default function Dashboard() {
                             handleAnswerChange(q.id, opt)
                           }
                         />
-                        <span>{opt}</span>
+                        {opt}
                       </label>
                     ))}
                   </div>
@@ -292,7 +244,7 @@ export default function Dashboard() {
                 {q.type === "scale" && (
                   <div className="scale-options">
                     {[1, 2, 3, 4, 5].map((v) => (
-                      <label key={v} className="scale-option">
+                      <label key={v}>
                         <input
                           type="radio"
                           name={`q${q.id}`}
@@ -301,7 +253,7 @@ export default function Dashboard() {
                             handleAnswerChange(q.id, v)
                           }
                         />
-                        <span>{v}</span>
+                        {v}
                       </label>
                     ))}
                   </div>
@@ -321,85 +273,22 @@ export default function Dashboard() {
                 Next
               </button>
             ) : (
-              <button className="submit-btn" onClick={submitSurvey}>
-                Submit Survey
-              </button>
+              <button onClick={submitSurvey}>Submit</button>
             )}
-
-            <button
-              className="cancel-btn"
-              onClick={() => {
-                setActiveSurvey(null);
-                setAnswers({});
-                setCurrentIndex(0);
-              }}
-            >
-              Cancel
-            </button>
           </div>
         </div>
       )}
 
-      {/* ===== SURVEY COMPLETE MODAL ===== */}
+      {/* ===== COMPLETE MODAL ===== */}
       {showSurveyComplete && (
-        <div
-          className="survey-modal-overlay"
-          onClick={() => setShowSurveyComplete(false)}
-        >
-          <div
-            className="survey-modal-card"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="survey-emoji">🎉</div>
-            <div className="survey-title">Survey Completed!</div>
-            <div className="survey-message">
-              Your reward has been credited.
-            </div>
-            <div className="survey-reward">
-              + ${Number(lastReward).toFixed(2)}
-            </div>
-            <button
-              className="survey-button"
-              onClick={() => setShowSurveyComplete(false)}
-            >
+        <div className="survey-modal-overlay">
+          <div className="survey-modal-card">
+            <h2>🎉 Completed</h2>
+            <p>Reward added</p>
+            <strong>+${lastReward}</strong>
+            <button onClick={() => setShowSurveyComplete(false)}>
               Close
             </button>
-          </div>
-        </div>
-      )}
-
-      {/* ===== PROFILE MODAL ===== */}
-      {showProfileModal && (
-        <div
-          className="profile-modal-overlay"
-          onClick={() => setShowProfileModal(false)}
-        >
-          <div
-            className="profile-modal"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3>Profile & KYC</h3>
-            <input className="profile-input" placeholder="Full Name" />
-            <input className="profile-input" placeholder="Location" />
-            <input className="profile-input" placeholder="ID Number" />
-            <textarea
-              className="profile-textarea"
-              placeholder="Other info"
-            />
-            <div className="profile-actions">
-              <button
-                className="save-btn"
-                onClick={() => setShowProfileModal(false)}
-              >
-                Save
-              </button>
-              <button
-                className="cancel-btn"
-                onClick={() => setShowProfileModal(false)}
-              >
-                Cancel
-              </button>
-            </div>
           </div>
         </div>
       )}
