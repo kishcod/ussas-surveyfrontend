@@ -655,5 +655,25 @@ html, body, #root {
 .cancel-btn { background-color: #ef4444; color: white; }
 .cancel-btn:hover { background-color: #b91c1c; }
 
+.scale-options {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  gap: 8px; /* spacing between options */
+  margin-top: 8px;
+}
+
+.scale-options label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* left align text and radio */
+  font-weight: bold;
+}
+
+.scale-options input[type="radio"] {
+  transform: scale(1); /* normal size */
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
 
 
