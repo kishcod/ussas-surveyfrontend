@@ -658,24 +658,16 @@ html, body, #root {
 /* Scale Options - Vertical Layout */
 .scale-options {
   display: flex;
-  flex-direction: column; /* stack radio buttons vertically */
-  gap: 8px;               /* space between options */
+  flex-direction: column; /* vertical stack */
+  gap: 6px;
   margin-top: 8px;
 }
 
-.scale-options label {
+.scale-option {
   display: flex;
-  flex-direction: row;     /* radio + text in a row */
-  align-items: center;     /* vertically center radio with text */
-  font-weight: bold;
+  align-items: center; /* radio left, number right */
+  gap: 8px;
   cursor: pointer;
 }
-
-.scale-options input[type="radio"] {
-  transform: scale(1);     /* normal size, change if needed */
-  margin-right: 10px;      /* space between radio and label text */
-  cursor: pointer;
-}
-
 
 
