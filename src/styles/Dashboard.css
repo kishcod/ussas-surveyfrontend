@@ -128,7 +128,7 @@ html, body, #root {
   grid-template-columns: repeat(2, 1fr); /* Force 2 columns */
   gap: 23px;
   align-content: start;
-  colour:indigo;
+  colour:#374151;
 }
 
 /* Responsive: for small screens, 1 per line */
