@@ -87,8 +87,8 @@ body {
 
 .landing-card {
   background: white;
-  border-radius: 1rem;
-  padding: 2rem;
+  border-radius: 1.5rem;
+  padding: 2.5rem;
   max-width: 500px;
   width: 100%;
   text-align: center;
