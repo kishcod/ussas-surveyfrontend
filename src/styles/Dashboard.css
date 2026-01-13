@@ -709,49 +709,7 @@ html, body, #root {
   border-radius: 18px;
 }
 
-/* ===============================
-   FORCE DESKTOP LAYOUT ON MOBILE
-   =============================== */
-@media (max-width: 768px) {
 
-  .dashboard-container {
-    padding: 32px;        /* same as desktop */
-  }
-
-  .dashboard-header {
-    flex-direction: row;  /* keep horizontal */
-    align-items: flex-start;
-  }
-
-  .profile-section {
-    align-items: flex-start;
-    text-align: left;
-  }
-
-  .balance-section {
-    text-align: right;
-    width: auto;
-  }
-
-  .balance-glow {
-    width: auto;
-    font-size: 36px;
-    padding: 16px 30px;
-  }
-
-  .withdraw-btn {
-    width: auto;
-    font-size: 16px;
-    padding: 10px 26px;
-  }
-
-  /* KEEP 2-COLUMN GRID ON MOBILE */
-  .surveys-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 23px;
-  }
-
-}
 
 
 
