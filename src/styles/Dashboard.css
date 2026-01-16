@@ -130,6 +130,17 @@ html, body, #root {
   align-content: start;
   colour:#374151;
 }
+.surveys-grid {
+  background: linear-gradient(
+    180deg,
+    rgba(79, 175, 255, 0.06),
+    rgba(34, 197, 94, 0.04)
+  );
+  padding: 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(79, 175, 255, 0.12);
+}
+
 
 /* Responsive: for small screens, 1 per line */
 @media (max-width: 760px) {
@@ -164,19 +175,21 @@ html, body, #root {
 
 
 .survey-card h3 {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   font-size: 15px;
-  color: #0c0c0cf5;
+  color: #e5e7eb;
 }
 
 .survey-card p {
   margin-bottom: 15px;
   font-weight: 500;
+  color: #cbd5f5;
 }
 
 .survey-card button {
-  padding: 6px 15px;
+  padding: 6px 12px;
   border-radius: 7px;
+  font-size: 14px;
   font-weight: 600;
   border: none;
   cursor: pointer;
@@ -435,12 +448,20 @@ html, body, #root {
   }
 }
 .survey-price {
+  display: inline-block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: #22c55e;
   font-weight: 700;
-  font-size: 14px;
-  color: #ffffff;
-  text-shadow: none;   /* remove glow */
-  animation: none;     /* stop glowing animation */
 }
+
+.survey-card hr {
+  border: none;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+  margin: 10px 0;
+}
+
 
 @keyframes priceGlow {
   0% {
@@ -500,8 +521,8 @@ html, body, #root {
   margin-top: 6px;
 }
 .no-surveys-msg {
-  font-size: 20px;        /* slightly bigger text */
-  font-weight: 700;       /* bold */
+  font-size: 22px;        /* slightly bigger text */
+  font-weight: 900;       /* bold */
   color: #ffffff;         /* white text */
   text-align: center;     /* centered */
   margin-top: 20px;
@@ -568,14 +589,7 @@ html, body, #root {
 
 
 /* Modal card */
-.profile-modal {
-  background: rgb(255, 255, 255);
-  padding: 20px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 10px 30px rgba(79, 16, 161, 0.2);
-}
+
 
 /* Modal title */
 .profile-modal h3 {
