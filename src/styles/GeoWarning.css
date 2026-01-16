@@ -1,7 +1,7 @@
 /* ========== PAGE BACKGROUND ========== */
 .geo-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #01040e, #f8fafc);
+  background: linear-gradient(135deg, #020617, #061a2f, #0b2a4a);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,19 +23,26 @@
 
 /* ========== BLUR EFFECT ========== */
 .geo-card-content.blurred {
-  filter: blur(4px);
+  filter: blur(6px);
   opacity: 0.6;
   pointer-events: none;
 }
+/* Blur entire page when loading */
+.geo-page.loading {
+  filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
+
 
 .checking-overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  background: rgba(255, 255, 255, 0.97);
+  background: rgba(275, 245, 255, 0.87);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 20;
+  z-index: 990;
 }
 
 .checking-box {
@@ -66,14 +73,14 @@
 .proxy-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 23px;
+  gap: 18px;
 }
 
 /* ========== PROXY CARD ========== */
 .proxy-card {
   background: #f9fafb;
   border-radius: 16px;
-  padding: 22px;
+  padding: 18px;
   text-align: center;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -92,21 +99,21 @@
 
 /* ========== PROXY IMAGE ========== */
 .proxy-card img {
-  width: 100px;
+  width: 85px;
   height: auto;
   margin-bottom: 14px;
 }
 
 /* ========== TITLES ========== */
 .proxy-card h3 {
-  font-size: 1.2rem;
+  font-size: 1.05rem;
   color: #111827;
   margin-bottom: 10px;
 }
 
 /* ========== FEATURES ========== */
 .proxy-features {
-  font-size: 0.95rem;
+  font-size: 0.90rem;
   color: #4b5563;
   line-height: 1.6;
   margin-bottom: 14px;
@@ -114,7 +121,7 @@
 
 /* ========== PRICE ========== */
 .proxy-price {
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: #1e40af;
   margin-bottom: 14px;
