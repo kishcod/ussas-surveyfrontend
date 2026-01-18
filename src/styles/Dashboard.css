@@ -723,40 +723,23 @@ html, body, #root {
   padding: 12px;
   border-radius: 18px;
 }
- <meta name="viewport" content="width=1200">
-/* FORCE DESKTOP LAYOUT ON MOBILE */
 @media (max-width: 768px) {
-
-  .dashboard-header {
-    flex-direction: row !important;
-    align-items: flex-start !important;
-  }
-
-  .profile-section {
-    align-items: flex-start !important;
-    text-align: left !important;
-  }
-
-  .balance-section {
-    text-align: right !important;
-    align-self: flex-end !important;
+  .dashboard-container {
+    padding: 24px;
   }
 
   .surveys-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 23px !important;
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .withdraw-btn {
-    width: auto !important;
+  .survey-card {
+    padding: 18px;
   }
 
   .balance-glow {
-    width: auto !important;
-    font-size: 36px !important;
+    font-size: 30px;
   }
 }
-
 
 
 
