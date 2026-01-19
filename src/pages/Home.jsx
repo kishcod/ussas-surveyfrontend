@@ -18,19 +18,24 @@ export default function Home() {
 
   return (
     <div className="landing-container">
-      {/* Top nav */}
+      {/* NAVBAR */}
       <nav className="landing-nav">
         <div className="nav-left">
           <span className="nav-link" onClick={() => setShowAbout(true)}>About</span>
           <span className="nav-link" onClick={() => setShowContact(true)}>Contact</span>
         </div>
+
         <div className="nav-right">
-          <button className="landing-btn login" onClick={() => nav("/login")}>Login</button>
-          <button className="landing-btn signup" onClick={() => nav("/signup")}>Sign Up</button>
+          <button className="landing-btn login" onClick={() => nav("/login")}>
+            Login
+          </button>
+          <button className="landing-btn signup" onClick={() => nav("/signup")}>
+            Sign Up
+          </button>
         </div>
       </nav>
 
-      {/* Overlay */}
+      {/* HERO / CARD SECTION */}
       <div className="landing-overlay">
         <div className="landing-card">
           <h1 className="landing-title">US-SAAS Survey</h1>
@@ -47,7 +52,7 @@ export default function Home() {
             Available to U.S. residents 18+ • No guaranteed income
           </p>
 
-          {/* How it works */}
+          {/* HOW IT WORKS */}
           <div className="how-section">
             <h3 className="how-title">How it works</h3>
 
@@ -56,10 +61,12 @@ export default function Home() {
                 <span className="step-number">1</span>
                 <p>Create an account</p>
               </div>
+
               <div className="how-step">
                 <span className="step-number">2</span>
                 <p>Choose surveys</p>
               </div>
+
               <div className="how-step">
                 <span className="step-number">3</span>
                 <p>Complete & earn rewards</p>
@@ -67,32 +74,33 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </div>
 
-     <footer className="landing-footer">
-  <div className="footer-icons">
-    <FaFacebookF className="social-icon" />
-    <FaLinkedinIn className="social-icon" />
-    <FaTwitter className="social-icon" />
-    <FaInstagram className="social-icon" />
-  </div>
+      {/* FOOTER (OUTSIDE OVERLAY) */}
+      <footer className="landing-footer">
+        <div className="footer-icons">
+          <FaFacebookF className="social-icon" />
+          <FaLinkedinIn className="social-icon" />
+          <FaTwitter className="social-icon" />
+          <FaInstagram className="social-icon" />
+        </div>
 
-  <div className="footer-links">
-    <span onClick={() => setShowPrivacy(true)}>Privacy Policy</span>
-    <span className="footer-sep">•</span>
-    <span onClick={() => setShowTerms(true)}>Terms</span>
-  </div>
+        <div className="footer-links">
+          <span onClick={() => setShowPrivacy(true)}>Privacy Policy</span>
+          <span className="footer-sep">•</span>
+          <span onClick={() => setShowTerms(true)}>Terms</span>
+        </div>
 
-  <div className="footer-divider"></div>
+        <div className="footer-divider"></div>
 
-  <p className="footer-copy">
-    © {new Date().getFullYear()} US-SAAS Survey. All rights reserved.
-  </p>
-</footer>
- </div>
+        <p className="footer-copy">
+          © {new Date().getFullYear()} US-SAAS Survey. All rights reserved.
+        </p>
+      </footer>
 
-      {/* ABOUT */}
+      {/* MODALS */}
       {showAbout && (
-        <Modal onClose={() => setShowAbout(false)} title="About Us">
+        <Modal title="About Us" onClose={() => setShowAbout(false)}>
           <p>
             US-SAAS Survey connects U.S. residents with legitimate market research
             opportunities. Participation is free and voluntary.
@@ -100,16 +108,14 @@ export default function Home() {
         </Modal>
       )}
 
-      {/* CONTACT */}
       {showContact && (
-        <Modal onClose={() => setShowContact(false)} title="Contact Us">
+        <Modal title="Contact Us" onClose={() => setShowContact(false)}>
           <p>Email: support@ussassurvey.xyz</p>
         </Modal>
       )}
 
-      {/* PRIVACY */}
       {showPrivacy && (
-        <Modal onClose={() => setShowPrivacy(false)} title="Privacy Policy">
+        <Modal title="Privacy Policy" onClose={() => setShowPrivacy(false)}>
           <p>
             We respect your privacy. We collect only necessary information to
             operate surveys, prevent fraud, and process rewards.
@@ -118,9 +124,8 @@ export default function Home() {
         </Modal>
       )}
 
-      {/* TERMS */}
       {showTerms && (
-        <Modal onClose={() => setShowTerms(false)} title="Terms & Conditions">
+        <Modal title="Terms & Conditions" onClose={() => setShowTerms(false)}>
           <p>
             US-SAAS Survey does not guarantee income or survey availability.
             Rewards depend on eligibility and successful completion.
@@ -132,14 +137,16 @@ export default function Home() {
   );
 }
 
-/* Reusable modal */
+/* REUSABLE MODAL */
 function Modal({ title, children, onClose }) {
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-card" onClick={e => e.stopPropagation()}>
+      <div className="modal-card" onClick={(e) => e.stopPropagation()}>
         <h2>{title}</h2>
         {children}
-        <button className="modal-close" onClick={onClose}>Close</button>
+        <button className="modal-close" onClick={onClose}>
+          Close
+        </button>
       </div>
     </div>
   );
