@@ -724,6 +724,41 @@ html, body, #root {
   border-radius: 18px;
 }
 
+/* ===============================
+   FORCE DESKTOP LAYOUT ON MOBILE
+   =============================== */
+@media (max-width: 768px) {
+
+  .dashboard-header {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+  }
+
+  .profile-section {
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .balance-section {
+    align-self: flex-end !important;
+    text-align: right !important;
+  }
+
+  .surveys-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 23px !important;
+  }
+
+  .withdraw-btn {
+    width: auto !important;
+  }
+
+  .balance-glow {
+    width: auto !important;
+    font-size: 36px !important;
+  }
+}
 
 
 
