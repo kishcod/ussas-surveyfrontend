@@ -580,3 +580,46 @@ html, body, #root {
   border: none;
   box-shadow: 0 6px 20px rgba(59,130,246,0.5);
 }
+/* ===== SCALE OPTIONS (NO NUMBERS) ===== */
+
+.scale-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.scale-pill {
+  position: relative;
+  cursor: pointer;
+}
+
+.scale-pill input {
+  display: none;
+}
+
+.scale-pill span {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid #334155;
+  background: #020617;
+  color: #cbd5f5;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+/* Hover */
+.scale-pill:hover span {
+  border-color: #4fafff;
+  color: #ffffff;
+}
+
+/* Selected */
+.scale-pill.active span {
+  background: linear-gradient(135deg, #4fafff, #2563eb);
+  border-color: #4fafff;
+  color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(79, 175, 255, 0.25);
+}
