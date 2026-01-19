@@ -68,25 +68,27 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Footer */}
-        <footer className="landing-footer">
-          <div className="footer-icons">
-            <FaFacebookF className="social-icon" />
-            <FaLinkedinIn className="social-icon" />
-            <FaTwitter className="social-icon" />
-            <FaInstagram className="social-icon" />
-          </div>
+     <footer className="landing-footer">
+  <div className="footer-icons">
+    <FaFacebookF className="social-icon" />
+    <FaLinkedinIn className="social-icon" />
+    <FaTwitter className="social-icon" />
+    <FaInstagram className="social-icon" />
+  </div>
 
-          <div className="footer-links">
-            <span onClick={() => setShowPrivacy(true)}>Privacy Policy</span>
-            <span onClick={() => setShowTerms(true)}>Terms</span>
-          </div>
+  <div className="footer-links">
+    <span onClick={() => setShowPrivacy(true)}>Privacy Policy</span>
+    <span className="footer-sep">•</span>
+    <span onClick={() => setShowTerms(true)}>Terms</span>
+  </div>
 
-          <p className="footer-copy">
-            © {new Date().getFullYear()} US-SAAS Survey. All rights reserved.
-          </p>
-        </footer>
-      </div>
+  <div className="footer-divider"></div>
+
+  <p className="footer-copy">
+    © {new Date().getFullYear()} US-SAAS Survey. All rights reserved.
+  </p>
+</footer>
+ </div>
 
       {/* ABOUT */}
       {showAbout && (
