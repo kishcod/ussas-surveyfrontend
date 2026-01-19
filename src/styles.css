@@ -543,5 +543,7 @@ body {
 
 .page-container label {
   font-weight: 600;
-  marg
+  margin-bottom: 6px; /* or whatever spacing you want */
+}
+
 
