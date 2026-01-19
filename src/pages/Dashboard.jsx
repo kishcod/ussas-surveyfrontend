@@ -284,47 +284,51 @@ export default function Dashboard() {
             Page {Math.floor(currentIndex / 2) + 1} of {Math.ceil(activeSurvey.questions.length / 2)}
           </div>
           <h2>{activeSurvey.survey.title}</h2>
+      {activeSurvey.questions.slice(currentIndex, currentIndex + 2).map((q) => (
+  <div key={q.id} className="survey-question">
+    <label>{q.question}</label>
 
-          {activeSurvey.questions.slice(currentIndex, currentIndex + 2).map((q) => (
-            <div key={q.id} className="survey-question">
-              <label>{q.question}</label>
-
-              {/* Text / Number */}
-              {(q.type === "text" || q.type === "number") && (
-                <input
-                  type={q.type}
-                  value={answers[q.id] || ""}
-                  onChange={(e) => handleAnswerChange(q.id, e.target.value)}
-                />
-              )}
-
-              {/* Radio */}
-         {q.type === "scale" && (
-  <div className="scale-options">
-    {["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"].map(
-      (label, idx) => {
-        const value = idx + 1;
-        return (
-          <label
-            key={value}
-            className={`scale-pill ${
-              answers[q.id] == value ? "active" : ""
-            }`}
-          >
-            <input
-              type="radio"
-              name={`q${q.id}`}
-              value={value}
-              checked={answers[q.id] == value}
-              onChange={() => handleAnswerChange(q.id, value)}
-            />
-            <span>{label}</span>
-          </label>
-        );
-      }
+    {(q.type === "text" || q.type === "number") && (
+      <input
+        type={q.type}
+        value={answers[q.id] || ""}
+        onChange={(e) => handleAnswerChange(q.id, e.target.value)}
+      />
     )}
-  </div>
-)}
+
+    {q.type === "scale" && (
+      <div className="scale-options">
+        {[
+          "Strongly Disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly Agree",
+        ].map((label, idx) => {
+          const value = idx + 1;
+          return (
+            <label
+              key={value}
+              className={`scale-pill ${
+                answers[q.id] == value ? "active" : ""
+              }`}
+            >
+              <input
+                type="radio"
+                name={`q${q.id}`}
+                value={value}
+                checked={answers[q.id] == value}
+                onChange={() => handleAnswerChange(q.id, value)}
+              />
+              <span>{label}</span>
+            </label>
+          );
+        })}
+      </div>
+    )}
+  </div>   {/* ✅ THIS WAS MISSING */}
+))}
+
 
 
           {/* Navigation */}
