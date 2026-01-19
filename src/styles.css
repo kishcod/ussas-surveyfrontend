@@ -663,3 +663,14 @@ body {
   letter-spacing: 0.3px;
 }
 
+
+.landing-footer {
+  margin-top: 20px;
+  padding-bottom: 12px;
+  text-align: center;
+  color: #e5e7eb !important;
+  opacity: 1 !important;
+  position: relative;
+  z-index: 10;
+}
+
