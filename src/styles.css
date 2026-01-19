@@ -416,4 +416,132 @@ body {
   flex-direction: column;
 }
 
+/* ==================================================
+   ABOUT US & CONTACT US PAGES
+   ================================================== */
+.page-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  background: linear-gradient(145deg, rgba(15,40,70,0.9), rgba(10,25,45,0.9));
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+  color: #ffffff;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+/* Headings */
+.page-container h1,
+.page-container h2 {
+  font-weight: 900;
+  margin-bottom: 16px;
+  color: #4fafff;
+}
+
+.page-container h3 {
+  margin-bottom: 12px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Paragraphs */
+.page-container p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #cbd5f5;
+  margin-bottom: 16px;
+}
+
+/* Links */
+.page-container a {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.25s ease;
+}
+
+.page-container a:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+/* Cards for team, features, or sections */
+.page-card {
+  background: linear-gradient(145deg, rgba(12,35,60,0.95), rgba(8,20,38,0.95));
+  padding: 18px;
+  margin-bottom: 20px;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.page-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(79,175,255,0.35);
+}
+
+/* Buttons */
+.page-container .btn {
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+
+.page-container .btn-primary {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+}
+
+.page-container .btn-primary:hover {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.45);
+}
+
+.page-container .btn-secondary {
+  background: linear-gradient(135deg, #64748b, #475569);
+  color: #e5e7eb;
+}
+
+.page-container .btn-secondary:hover {
+  background: linear-gradient(135deg, #475569, #1f2933);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+}
+
+/* Forms (Contact Us page) */
+.page-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.page-container input,
+.page-container textarea {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #4fafff;
+  background-color: #0a2540;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.page-container textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.page-container label {
+  font-weight: 600;
+  marg
 
