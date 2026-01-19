@@ -326,10 +326,8 @@ export default function Dashboard() {
         })}
       </div>
     )}
-  </div>   {/* ✅ THIS WAS MISSING */}
+  </div>
 ))}
-
-
 
           {/* Navigation */}
           <div className="survey-buttons">
