@@ -577,31 +577,31 @@ body {
    FOOTER POLISH
 ================================ */
 .landing-footer {
-  margin-top: 28px;
+  width: 100%;
+  max-width: 520px;
   text-align: center;
-  padding-bottom: 20px;
+  opacity: 0.85;
 }
 
 .footer-icons {
   display: flex;
   justify-content: center;
-  gap: 24px;
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+  gap: 20px;
+  font-size: 1.3rem;
+  margin-bottom: 6px;
 }
 
 .footer-links {
   display: flex;
   justify-content: center;
-  gap: 18px;
-  font-size: 13px;
-  margin-bottom: 6px;
+  gap: 14px;
+  font-size: 12px;
+  margin-bottom: 4px;
 }
 
 .footer-links span {
   cursor: pointer;
-  color: #cbd5f5;
-  transition: color 0.2s;
+  color: #b6c2e2;
 }
 
 .footer-links span:hover {
@@ -610,8 +610,9 @@ body {
 
 .footer-copy {
   font-size: 11px;
-  opacity: 0.75;
+  color: #94a3b8;
 }
+
 
 /* ================================
    MODAL BUTTON
@@ -625,5 +626,14 @@ body {
   color: white;
   font-weight: 700;
   cursor: pointer;
+}
+.landing-stack {
+  gap: 22px; /* was 14px – gives premium spacing */
+}
+
+.landing-card {
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.55),
+    0 0 0 1px rgba(255,255,255,0.04);
 }
 
