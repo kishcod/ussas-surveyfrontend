@@ -541,3 +541,42 @@ html, body, #root {
   transform: translateY(-2px);
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
 }
+
+
+.scale-options {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.scale-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(79,175,255,0.3);
+  font-weight: bold;
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: rgba(10,25,45,0.85);
+}
+
+.scale-option:hover {
+  background: rgba(34,85,255,0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,85,255,0.25);
+}
+
+.scale-option input[type="radio"] {
+  display: none; /* hide the default radio button */
+}
+
+.scale-option input[type="radio"]:checked + span {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  box-shadow: 0 6px 20px rgba(59,130,246,0.5);
+}
