@@ -299,42 +299,33 @@ export default function Dashboard() {
               )}
 
               {/* Radio */}
-              {q.type === "radio" && q.options && (
-                <div className="radio-group">
-                  {JSON.parse(q.options).map((opt, idx) => (
-                    <label key={idx} className="radio-option">
-                      <input
-                        type="radio"
-                        name={`q${q.id}`}
-                        value={opt}
-                        checked={answers[q.id] === opt}
-                        onChange={(e) => handleAnswerChange(q.id, e.target.value)}
-                      />
-                      <span>{opt}</span>
-                    </label>
-                  ))}
-                </div>
-              )}
+         {q.type === "scale" && (
+  <div className="scale-options">
+    {["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"].map(
+      (label, idx) => {
+        const value = idx + 1;
+        return (
+          <label
+            key={value}
+            className={`scale-pill ${
+              answers[q.id] == value ? "active" : ""
+            }`}
+          >
+            <input
+              type="radio"
+              name={`q${q.id}`}
+              value={value}
+              checked={answers[q.id] == value}
+              onChange={() => handleAnswerChange(q.id, value)}
+            />
+            <span>{label}</span>
+          </label>
+        );
+      }
+    )}
+  </div>
+)}
 
-              {/* Scale */}
-              {q.type === "scale" && (
-                <div className="scale-options">
-                  {[1, 2, 3, 4, 5].map((val) => (
-                    <label key={val} className="scale-option">
-                      <input
-                        type="radio"
-                        name={`q${q.id}`}
-                        value={val}
-                        checked={answers[q.id] == val}
-                        onChange={(e) => handleAnswerChange(q.id, e.target.value)}
-                      />
-                      <span>{val}</span>
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
 
           {/* Navigation */}
           <div className="survey-buttons">
