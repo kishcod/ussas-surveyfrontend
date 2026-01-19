@@ -723,23 +723,7 @@ html, body, #root {
   padding: 12px;
   border-radius: 18px;
 }
-@media (max-width: 768px) {
-  .dashboard-container {
-    padding: 24px;
-  }
 
-  .surveys-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .survey-card {
-    padding: 18px;
-  }
-
-  .balance-glow {
-    font-size: 30px;
-  }
-}
 
 
 
