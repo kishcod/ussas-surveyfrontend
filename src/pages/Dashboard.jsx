@@ -295,39 +295,33 @@ export default function Dashboard() {
         onChange={(e) => handleAnswerChange(q.id, e.target.value)}
       />
     )}
-
-    {q.type === "scale" && (
-      <div className="scale-options">
-        {[
-          "Strongly Disagree",
-          "Disagree",
-          "Neutral",
-          "Agree",
-          "Strongly Agree",
-        ].map((label, idx) => {
-          const value = idx + 1;
-          return (
-            <label
-              key={value}
-              className={`scale-pill ${
-                answers[q.id] == value ? "active" : ""
-              }`}
-            >
-              <input
-                type="radio"
-                name={`q${q.id}`}
-                value={value}
-                checked={answers[q.id] == value}
-                onChange={() => handleAnswerChange(q.id, value)}
-              />
-              <span>{label}</span>
-            </label>
-          );
-        })}
-      </div>
-    )}
+  {q.type === "scale" && (
+  <div className="scale-options">
+    {[
+      "Strongly Disagree",
+      "Disagree",
+      "Neutral",
+      "Agree",
+      "Strongly Agree",
+    ].map((label, idx) => {
+      const value = idx + 1;
+      return (
+        <label key={value} className="scale-option">
+          <input
+            type="radio"
+            name={`q${q.id}`}
+            value={value}
+            checked={answers[q.id] == value}
+            onChange={() => handleAnswerChange(q.id, value)}
+          />
+          <span>{label}</span>
+        </label>
+      );
+    })}
   </div>
-))}
+)}
+
+    
 
           {/* Navigation */}
           <div className="survey-buttons">
