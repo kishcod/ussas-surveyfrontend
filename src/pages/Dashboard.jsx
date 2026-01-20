@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Dashboard.css";
 import "../styles/SurveyComplete.css";
-import logo from "../assets/logo.png"; // Ensure logo.png is in src/assets
+import logo from "../assets/logo.png";
 import API from "../api";
 
 export default function Dashboard() {
@@ -20,9 +20,10 @@ export default function Dashboard() {
   const storedUser = JSON.parse(localStorage.getItem("user")) || {};
   const token = localStorage.getItem("token") || "";
   const navigate = useNavigate();
-  const displayName = storedUser.username || storedUser.email || "Guest";
 
-  // Auto-generate referral link
+  const displayName =
+    storedUser.username || storedUser.email || "Guest";
+
   const referralLink = `${window.location.origin}/signup?ref=${storedUser.username || ""}`;
 
   useEffect(() => {
@@ -62,6 +63,7 @@ export default function Dashboard() {
   const handlePhotoUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
     const reader = new FileReader();
     reader.onload = () => {
       const photoUrl = reader.result;
@@ -76,9 +78,12 @@ export default function Dashboard() {
 
   const openSurvey = async (survey) => {
     try {
-      const res = await fetch(`${API}/api/surveys/${survey.id}/questions`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await fetch(
+        `${API}/api/surveys/${survey.id}/questions`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       if (!res.ok) throw new Error("Failed to load questions");
       const questions = await res.json();
       setActiveSurvey({ survey, questions });
@@ -97,8 +102,9 @@ export default function Dashboard() {
   const submitSurvey = async () => {
     if (!activeSurvey) return;
 
-    // Check unanswered questions
-    const unanswered = activeSurvey.questions.filter((q) => !answers[q.id]);
+    const unanswered = activeSurvey.questions.filter(
+      (q) => !answers[q.id]
+    );
     if (unanswered.length > 0) {
       alert("Please answer all questions before submitting!");
       return;
@@ -141,7 +147,7 @@ export default function Dashboard() {
       }
     } catch (err) {
       console.error("Error submitting survey:", err);
-      alert("Failed to submit survey. Check console for details.");
+      alert("Failed to submit survey.");
     }
   };
 
@@ -153,30 +159,38 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container app-root">
-      {/* ===== HEADER ===== */}
       <div className="dashboard-header">
-        {/* Left: Profile + referral */}
         <div className="profile-section">
           <div className="divider"></div>
+
           <div
             className="profile-photo-wrapper"
-            onClick={() => document.getElementById("photoInput").click()}
+            onClick={() =>
+              document.getElementById("photoInput").click()
+            }
           >
             {profilePhoto ? (
-              <img src={profilePhoto} alt="Profile" className="profile-photo" />
+              <img
+                src={profilePhoto}
+                alt="Profile"
+                className="profile-photo"
+              />
             ) : (
               <div className="profile-placeholder">
                 {displayName[0].toUpperCase()}
               </div>
             )}
           </div>
+
           <input
             type="file"
             id="photoInput"
-            style={{ display: "none" }}
+            hidden
             onChange={handlePhotoUpload}
           />
+
           <h3>{displayName}</h3>
+
           <button
             className="profile-btn"
             onClick={() => setShowProfileModal(true)}
@@ -184,52 +198,18 @@ export default function Dashboard() {
             Profile ▾
           </button>
 
-          {/* PROFILE MODAL */}
-          {showProfileModal && (
-            <div
-              className="profile-modal-overlay"
-              onClick={() => setShowProfileModal(false)}
-            >
-              <div
-                className="profile-modal"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <h3>Profile & KYC</h3>
-                <input type="text" placeholder="Full Name" className="profile-input" />
-                <input type="text" placeholder="Location / Address" className="profile-input" />
-                <input type="text" placeholder="Alien ID / National ID" className="profile-input" />
-                <label className="upload-label">
-                  Upload ID Document
-                  <input type="file" hidden />
-                </label>
-                <textarea placeholder="Other KYC Information" className="profile-textarea" />
-                <div className="profile-actions">
-                  <button
-                    className="save-btn"
-                    onClick={() => setShowProfileModal(false)}
-                  >
-                    Save
-                  </button>
-                  <button
-                    className="cancel-btn"
-                    onClick={() => setShowProfileModal(false)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
           <div className="referral-box">
             <p>Your Referral Link (Earn $5 per referral)</p>
             <div className="referral-row">
-              <input type="text" value={referralLink} readOnly className="referral-input" />
+              <input
+                type="text"
+                value={referralLink}
+                readOnly
+              />
               <button
-                onClick={() => {
-                  navigator.clipboard.writeText(referralLink);
-                  alert("Referral link copied!");
-                }}
+                onClick={() =>
+                  navigator.clipboard.writeText(referralLink)
+                }
               >
                 Copy
               </button>
@@ -237,15 +217,19 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Center: Logo + heading */}
         <div className="brand-bar">
           <img src={logo} alt="Logo" className="brand-logo" />
-          <h1 className="brand-title">US SaaS Survey Educational Research</h1>
+          <h1 className="brand-title">
+            US SaaS Survey Educational Research
+          </h1>
         </div>
 
-        {/* Right: Balance card */}
         <div className="balance-section">
-          <h2 className={`balance-glow ${balanceGlow ? "glow" : ""}`}>
+          <h2
+            className={`balance-glow ${
+              balanceGlow ? "glow" : ""
+            }`}
+          >
             Balance: ${balance.toFixed(2)}
           </h2>
           <button className="withdraw-btn" onClick={handleWithdraw}>
@@ -254,7 +238,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* ===== SURVEYS ===== */}
       {!activeSurvey ? (
         <>
           <h2 className="section-title">Available Surveys:</h2>
@@ -263,8 +246,12 @@ export default function Dashboard() {
               surveys.map((s) => (
                 <div key={s.id} className="survey-card">
                   <h3>{s.title}</h3>
-                  <p className="survey-price">💰 Reward: ${s.reward}</p>
-                  <p>⏱ Estimated time: {s.estimated_time || 10} min</p>
+                  <p className="survey-price">
+                    💰 Reward: ${s.reward}
+                  </p>
+                  <p>
+                    ⏱ Estimated time: {s.estimated_time || 10} min
+                  </p>
                   <button
                     className="bg-indigo-600"
                     onClick={() => openSurvey(s)}
@@ -274,65 +261,92 @@ export default function Dashboard() {
                 </div>
               ))
             ) : (
-              <p className="no-surveys-msg">No surveys available at the moment.</p>
+              <p className="no-surveys-msg">
+                No surveys available at the moment.
+              </p>
             )}
           </div>
         </>
       ) : (
         <div className="survey-form">
           <div className="survey-progress">
-            Page {Math.floor(currentIndex / 2) + 1} of {Math.ceil(activeSurvey.questions.length / 2)}
+            Page {Math.floor(currentIndex / 2) + 1} of{" "}
+            {Math.ceil(activeSurvey.questions.length / 2)}
           </div>
+
           <h2>{activeSurvey.survey.title}</h2>
-      {activeSurvey.questions.slice(currentIndex, currentIndex + 2).map((q) => (
-  <div key={q.id} className="survey-question">
-    <label>{q.question}</label>
 
-    {(q.type === "text" || q.type === "number") && (
-      <input
-        type={q.type}
-        value={answers[q.id] || ""}
-        onChange={(e) => handleAnswerChange(q.id, e.target.value)}
-      />
-    )}
-  {q.type === "scale" && (
-  <div className="scale-options">
-    {[
-      "Strongly Disagree",
-      "Disagree",
-      "Neutral",
-      "Agree",
-      "Strongly Agree",
-    ].map((label, idx) => {
-      const value = idx + 1;
-      return (
-        <label key={value} className="scale-option">
-          <input
-            type="radio"
-            name={`q${q.id}`}
-            value={value}
-            checked={answers[q.id] == value}
-            onChange={() => handleAnswerChange(q.id, value)}
-          />
-          <span>{label}</span>
-        </label>
-      );
-    })}
-  </div>
-)}
+          {activeSurvey.questions
+            .slice(currentIndex, currentIndex + 2)
+            .map((q) => (
+              <div key={q.id} className="survey-question">
+                <label>{q.question}</label>
 
-    
+                {(q.type === "text" || q.type === "number") && (
+                  <input
+                    type={q.type}
+                    value={answers[q.id] || ""}
+                    onChange={(e) =>
+                      handleAnswerChange(q.id, e.target.value)
+                    }
+                  />
+                )}
 
-          {/* Navigation */}
+                {q.type === "radio" && q.options && (
+                  <div className="radio-group">
+                    {JSON.parse(q.options).map((opt, idx) => (
+                      <label key={idx} className="radio-option">
+                        <input
+                          type="radio"
+                          name={`q${q.id}`}
+                          value={opt}
+                          checked={answers[q.id] === opt}
+                          onChange={(e) =>
+                            handleAnswerChange(q.id, e.target.value)
+                          }
+                        />
+                        <span>{opt}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+
+                {q.type === "scale" && (
+                  <div className="scale-options">
+                    {[1, 2, 3, 4, 5].map((val) => (
+                      <label key={val} className="scale-option">
+                        <input
+                          type="radio"
+                          name={`q${q.id}`}
+                          value={val}
+                          checked={answers[q.id] == val}
+                          onChange={(e) =>
+                            handleAnswerChange(q.id, e.target.value)
+                          }
+                        />
+                        <span>{val}</span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+
           <div className="survey-buttons">
             {currentIndex > 0 && (
-              <button className="prev-btn" onClick={() => setCurrentIndex(currentIndex - 2)}>
+              <button
+                className="prev-btn"
+                onClick={() => setCurrentIndex(currentIndex - 2)}
+              >
                 Previous
               </button>
             )}
 
             {currentIndex + 2 < activeSurvey.questions.length ? (
-              <button className="next-btn" onClick={() => setCurrentIndex(currentIndex + 2)}>
+              <button
+                className="next-btn"
+                onClick={() => setCurrentIndex(currentIndex + 2)}
+              >
                 Next
               </button>
             ) : (
@@ -355,7 +369,6 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Survey Complete Modal */}
       {showSurveyComplete && (
         <div
           className="survey-modal-overlay"
@@ -370,7 +383,9 @@ export default function Dashboard() {
             <div className="survey-message">
               Thank you for your time. Your reward has been credited.
             </div>
-            <div className="survey-reward">+ ${Number(lastReward).toFixed(2)}</div>
+            <div className="survey-reward">
+              + ${Number(lastReward).toFixed(2)}
+            </div>
             <button
               className="survey-button"
               onClick={() => setShowSurveyComplete(false)}
@@ -383,3 +398,4 @@ export default function Dashboard() {
     </div>
   );
 }
+
