@@ -692,4 +692,7 @@ body {
   padding-bottom: 12px;
   text-align: center;
 }
+.landing-footer {
+  opacity: 0.85;
+}
 
