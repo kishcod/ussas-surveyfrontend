@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "../styles/Withdrawp.css";
+import "../styles/withdrawp.css";
 import API from "../api";
 
 export default function Withdraw() {
