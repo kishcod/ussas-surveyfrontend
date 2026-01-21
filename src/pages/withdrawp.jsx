@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/withdrawp.css";
-import API from "../api";
+import API from "../api"; // your backend base URL
 
+// Component name must be uppercase
 export default function WithdrawP() {
   const navigate = useNavigate();
 
-  // 🔹 Load user from localStorage to get balance
+  // 🔹 User balance & token
   const [balance, setBalance] = useState(0);
   const [token, setToken] = useState("");
 
@@ -25,10 +26,10 @@ export default function WithdrawP() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // 🔹 Submit withdraw
+  // 🔹 Submit withdrawal
   const submitWithdraw = async () => {
     if (!amount || Number(amount) <= 0) {
-      alert("Enter a valid amount");
+      alert("Enter a valid withdrawal amount");
       return;
     }
 
@@ -60,7 +61,8 @@ export default function WithdrawP() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Withdraw failed");
+
+      if (!res.ok) throw new Error(data.error || "Withdrawal failed");
 
       setSuccess(true);
     } catch (err) {
@@ -88,10 +90,7 @@ export default function WithdrawP() {
               onChange={(e) => setAmount(e.target.value)}
             />
 
-            <select
-              value={method}
-              onChange={(e) => setMethod(e.target.value)}
-            >
+            <select value={method} onChange={(e) => setMethod(e.target.value)}>
               <option value="">Select payout method</option>
               <option value="mpesa">M-Pesa</option>
               <option value="paypal">PayPal</option>
@@ -122,12 +121,8 @@ export default function WithdrawP() {
         ) : (
           <div className="withdraw-processing">
             <div className="spinner"></div>
-            <h3>Withdrawal Processing</h3>
-            <p>
-              Your request has been received.  
-              Please wait while we process your payout.
-            </p>
-
+            <h3>Withdrawal Request Submitted</h3>
+            <p>Your request has been received. Processing payout…</p>
             <button onClick={() => navigate("/dashboard")}>
               Back to Dashboard
             </button>
