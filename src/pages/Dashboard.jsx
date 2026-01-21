@@ -368,6 +368,60 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+      {showProfileModal && (
+  <div
+    className="profile-modal-overlay"
+    onClick={() => setShowProfileModal(false)}
+  >
+    <div
+      className="profile-modal"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <h3>Complete Your Profile</h3>
+
+      <input
+        className="profile-input"
+        type="text"
+        placeholder="Full Names"
+      />
+
+      <label className="upload-label">
+        Upload Alien ID
+        <input type="file" hidden />
+      </label>
+
+      <input
+        className="profile-input"
+        type="text"
+        placeholder="State"
+      />
+
+      <textarea
+        className="profile-textarea"
+        placeholder="Address"
+        rows="2"
+      />
+
+      <input
+        className="profile-input"
+        type="text"
+        placeholder="Date of Birth (DD/MM/YYYY)"
+      />
+
+      <div className="profile-actions">
+        <button
+          className="save-btn"
+          onClick={() => {
+            // TODO: save profile details
+            setShowProfileModal(false);
+          }}
+        >
+          Save Credentials
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
       {showSurveyComplete && (
         <div
