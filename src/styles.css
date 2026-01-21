@@ -662,6 +662,74 @@ body {
   color: #b8c1dc;
   letter-spacing: 0.3px;
 }
+/* Tighten footer spacing */
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 8px;            /* was 14px */
+  font-size: 12px;
+  margin-bottom: 2px; /* was 4px+ */
+}
+
+.footer-copy {
+  margin-top: 2px;    /* NEW – pulls it closer */
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.2;
+}
+
+/* Optional: remove extra visual gap */
+.footer-divider {
+  display: none;
+}
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8); /* darker overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+.modal-card {
+  background: #000000; /* PURE BLACK */
+  padding: 24px;
+  border-radius: 14px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  color: #e5e7eb; /* light text */
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+
+.modal-card h2 {
+  color: #22c55e; /* accent heading */
+  margin-bottom: 12px;
+}
+
+.modal-card p {
+  color: #cbd5f5;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.modal-close {
+  margin-top: 18px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(34,197,94,0.45);
+}
 
 
 
