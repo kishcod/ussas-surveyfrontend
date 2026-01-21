@@ -4,7 +4,6 @@ import dcProxyImg from "../assets/us-proxy.png";
 import resProxyImg from "../assets/residential-proxy.png";
 
 export default function GeoWarning() {
-
   /* 🔹 Verification steps */
   const steps = [
     "Obtaining IP address…",
@@ -73,6 +72,10 @@ export default function GeoWarning() {
 
   const handlePayHero = (link) => {
     window.location.href = link;
+  };
+
+  const handleProceedWithdraw = () => {
+    window.location.href = "/withdraw"; // We'll create WithdrawP.jsx
   };
 
   return (
@@ -150,8 +153,19 @@ export default function GeoWarning() {
             </div>
 
           </div>
+
+          {/* 🔹 Proceed & Withdraw Button */}
+          {!checking && (
+            <button
+              className="proceed-withdraw-btn"
+              onClick={handleProceedWithdraw}
+            >
+              Proceed & Withdraw
+            </button>
+          )}
         </div>
       </div>
     </div>
   );
 }
+
