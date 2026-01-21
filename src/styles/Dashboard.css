@@ -623,3 +623,98 @@ html, body, #root {
   color: #ffffff;
   box-shadow: 0 0 0 2px rgba(79, 175, 255, 0.25);
 }
+
+.profile-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.55);
+  z-index: 1000;
+}
+.profile-modal {
+  position: fixed;
+  top: 90px;
+  left: 16px;
+
+  width: 320px;
+  max-width: calc(100vw - 32px);
+
+  background: linear-gradient(
+    145deg,
+    rgba(15, 40, 70, 0.95),
+    rgba(10, 25, 45, 0.95)
+  );
+
+  border-radius: 16px;
+  padding: 18px;
+
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(79, 175, 255, 0.15);
+
+  animation: profileSlideIn 0.28s ease-out;
+}
+@keyframes profileSlideIn {
+  from {
+    transform: translateX(-25px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.save-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #4fafff, #2563eb);
+  color: #ffffff;
+
+  border: none;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+
+  transition: 0.25s ease;
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(79, 175, 255, 0.45);
+}
+.upload-label {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+
+  background: rgba(79, 175, 255, 0.12);
+  color: #4fafff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.upload-label:hover {
+  background: rgba(79, 175, 255, 0.22);
+}
+.profile-input,
+.profile-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+
+  border: 1px solid rgba(79, 175, 255, 0.25);
+  background: rgba(2, 6, 23, 0.85);
+  color: #ffffff;
+
+  font-size: 13px;
+}
+
+.profile-input::placeholder,
+.profile-textarea::placeholder {
+  color: #9ca3af;
+}
