@@ -35,7 +35,7 @@ export default function App() {
         <Route path="/survey-complete" element={<SurveyComplete />} />
         <Route path="/withdraw" element={<Withdraw />} />
         <Route path="/geo-warning" element={<GeoWarning />} />
-        <Route path="/withdrawp" element={<withdrawp />} /> {/* ✅ lowercase p */}
+        <Route path="/withdrawp" element={<WithdrawP />} /> {/* ✅ lowercase p */}
 
         {/* Admin protected route */}
         <Route
