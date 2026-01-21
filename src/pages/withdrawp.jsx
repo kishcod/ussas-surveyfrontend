@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/withdrawp.css";
 import API from "../api";
 
-export default function Withdraw() {
+export default function withdrawp() {
   const { state } = useLocation();
   const navigate = useNavigate();
 
