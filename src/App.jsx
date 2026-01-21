@@ -9,7 +9,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import SurveyComplete from "./pages/SurveyComplete.jsx";
 import Withdraw from "./pages/Withdraw.jsx";
 import GeoWarning from "./pages/GeoWarning.jsx";
-import Withdrawp from "./pages/Withdrawp.jsx"; // ✅ match file name
+import WithdrawP from "./pages/withdrawp.jsx"; // import with uppercase variable name
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 
 // Admin route protection
@@ -35,7 +35,7 @@ export default function App() {
         <Route path="/survey-complete" element={<SurveyComplete />} />
         <Route path="/withdraw" element={<Withdraw />} />
         <Route path="/geo-warning" element={<GeoWarning />} />
-        <Route path="/withdrawp" element={<WithdrawP />} /> {/* ✅ lowercase p */}
+        <Route path="/withdrawp" element={<WithdrawP />} /> {/* ✅ uppercase */}
 
         {/* Admin protected route */}
         <Route
