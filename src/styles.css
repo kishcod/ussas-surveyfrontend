@@ -664,35 +664,5 @@ body {
 }
 
 
-.landing-footer {
-  margin-top: 20px;
-  padding-bottom: 12px;
-  text-align: center;
-  color: #e5e7eb !important;
-  opacity: 1 !important;
-  position: relative;
-  z-index: 10;
-}
 
-.landing-overlay {
-  min-height: calc(100vh - 64px); /* accounts for top nav */
-  display: flex;
-  flex-direction: column;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 24px 16px 32px;
-}
-.landing-card {
-  margin: auto 0;
-  max-width: 420px;
-  width: 100%;
-  align-self: center;
-}
-.landing-footer {
-  margin-top: auto;
-  padding-bottom: 12px;
-  text-align: center;
-}
-.landing-footer {
-  opacity: 0.85;
-}
 
