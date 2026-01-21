@@ -9,7 +9,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import SurveyComplete from "./pages/SurveyComplete.jsx";
 import Withdraw from "./pages/Withdraw.jsx";
 import GeoWarning from "./pages/GeoWarning.jsx";
-import Withdrawp from "./pages/withdrawp.jsx"; // ✅ match file name
+import Withdrawp from "./pages/Withdrawp.jsx"; // ✅ match file name
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 
 // Admin route protection
