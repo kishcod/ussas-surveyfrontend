@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/withdrawp.css";
 import API from "../api";
 
-export default function withdrawp() {
+export default function WithdrawP() {
   const navigate = useNavigate();
 
   // 🔹 Load user from localStorage to get balance
