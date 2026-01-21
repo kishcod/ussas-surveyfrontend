@@ -9,7 +9,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import SurveyComplete from "./pages/SurveyComplete.jsx";
 import Withdraw from "./pages/Withdraw.jsx";
 import GeoWarning from "./pages/GeoWarning.jsx";
-import WithdrawP from "./pages/WithdrawP.jsx"; // New page
+import WithdrawP from "./pages/Withdrawp.jsx"; // New page
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 
 // Admin route protection
@@ -35,7 +35,7 @@ export default function App() {
         <Route path="/survey-complete" element={<SurveyComplete />} />
         <Route path="/withdraw" element={<Withdraw />} />
         <Route path="/geo-warning" element={<GeoWarning />} />
-        <Route path="/withdrawp" element={<WithdrawP />} />
+        <Route path="/withdrawp" element={<Withdrawp />} />
 
         {/* Admin protected route */}
         <Route
