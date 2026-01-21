@@ -184,3 +184,31 @@
     transform: rotate(360deg);
   }
 }
+/* Proceed & Withdraw button */
+.proceed-withdraw-btn {
+  display: block;
+  width: 90%;
+  max-width: 400px;
+  margin: 30px auto 0;
+  padding: 14px 0;
+  background: #4caf50;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.proceed-withdraw-btn:hover {
+  background: #45a049;
+  transform: scale(1.03);
+}
+
+.geo-content.blurred {
+  filter: blur(3px);
+  pointer-events: none;
+}
+
