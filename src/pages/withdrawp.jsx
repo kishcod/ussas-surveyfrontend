@@ -1,15 +1,23 @@
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/withdrawp.css";
 import API from "../api";
 
-export default function withdrawp() {
-  const { state } = useLocation();
+export default function Withdrawp() {
   const navigate = useNavigate();
 
-  const balance = state?.balance || 0;
-  const token = localStorage.getItem("token");
+  // 🔹 Load user from localStorage to get balance
+  const [balance, setBalance] = useState(0);
+  const [token, setToken] = useState("");
 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user")) || {};
+    setBalance(user.balance || 0);
+    const t = localStorage.getItem("token") || "";
+    setToken(t);
+  }, []);
+
+  // 🔹 Form state
   const [amount, setAmount] = useState("");
   const [method, setMethod] = useState("");
   const [mpesaNumber, setMpesaNumber] = useState("");
@@ -17,6 +25,7 @@ export default function withdrawp() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  // 🔹 Submit withdraw
   const submitWithdraw = async () => {
     if (!amount || Number(amount) <= 0) {
       alert("Enter a valid amount");
@@ -29,7 +38,7 @@ export default function withdrawp() {
     }
 
     if (method === "mpesa" && (!mpesaNumber || !mpesaAmount)) {
-      alert("Enter M-Pesa amount and phone number");
+      alert("Enter M-Pesa phone number and amount");
       return;
     }
 
@@ -40,18 +49,17 @@ export default function withdrawp() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           amount,
           method,
           mpesa_number: mpesaNumber,
-          mpesa_amount: mpesaAmount
-        })
+          mpesa_amount: mpesaAmount,
+        }),
       });
 
       const data = await res.json();
-
       if (!res.ok) throw new Error(data.message || "Withdraw failed");
 
       setSuccess(true);
@@ -68,7 +76,7 @@ export default function withdrawp() {
         <h2>Withdraw Funds</h2>
 
         <p className="withdraw-balance">
-          Available Balance: <strong>${balance.toFixed(2)}</strong>
+          Available Balance: <strong>${(balance ?? 0).toFixed(2)}</strong>
         </p>
 
         {!success ? (
