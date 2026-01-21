@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/GeoWarning.css";
 import dcProxyImg from "../assets/us-proxy.png";
 import resProxyImg from "../assets/residential-proxy.png";
 
 export default function GeoWarning() {
+  const navigate = useNavigate();
+
   /* 🔹 Verification steps */
   const steps = [
     "Obtaining IP address…",
@@ -19,9 +22,7 @@ export default function GeoWarning() {
   /* 🔹 Fake verification animation */
   useEffect(() => {
     const stepTimer = setInterval(() => {
-      setStepIndex((prev) =>
-        prev < steps.length - 1 ? prev + 1 : prev
-      );
+      setStepIndex((prev) => (prev < steps.length - 1 ? prev + 1 : prev));
     }, 1800);
 
     const finishTimer = setTimeout(() => {
@@ -35,7 +36,7 @@ export default function GeoWarning() {
     };
   }, []);
 
-  /* 🔹 Load PayPal */
+  /* 🔹 Load PayPal buttons */
   useEffect(() => {
     if (window.paypal) return;
 
@@ -44,6 +45,7 @@ export default function GeoWarning() {
       "https://www.paypal.com/sdk/js?client-id=Abvr9JQwh4aABOQkIoz7Dn8kcjEaPHlDV49WPqUUR3YfKSvqYF5TBcQj6WiqsAFajtSudQfHugP0tbz8&currency=USD";
     script.async = true;
     script.onload = () => {
+      // $5 Proxy
       window.paypal.Buttons({
         createOrder: (_, actions) =>
           actions.order.create({
@@ -55,6 +57,7 @@ export default function GeoWarning() {
           ),
       }).render("#paypal-5");
 
+      // $10 Proxy
       window.paypal.Buttons({
         createOrder: (_, actions) =>
           actions.order.create({
@@ -70,18 +73,19 @@ export default function GeoWarning() {
     document.body.appendChild(script);
   }, []);
 
+  /* 🔹 Handle M-Pesa links */
   const handlePayHero = (link) => {
     window.location.href = link;
   };
 
+  /* 🔹 Navigate to WithdrawP */
   const handleProceedWithdraw = () => {
-    window.location.href = "/withdraw"; // We'll create WithdrawP.jsx
+    navigate("/withdrawp"); // Balance will be handled in WithdrawP
   };
 
   return (
     <div className="geo-page">
       <div className="geo-card">
-
         {/* 🔹 Verification overlay */}
         {checking && (
           <div className="checking-overlay">
@@ -101,7 +105,6 @@ export default function GeoWarning() {
           </h1>
 
           <div className="proxy-list">
-
             {/* 🔹 $5 Proxy */}
             <div className="proxy-card">
               <img src={dcProxyImg} alt="US Datacenter Proxy" />
@@ -112,9 +115,7 @@ export default function GeoWarning() {
                 <li>Secure & reliable</li>
               </ul>
               <div className="proxy-price">$5.00</div>
-
               <div id="paypal-5" className="paypal-box" />
-
               <button
                 className="payhero-btn"
                 onClick={() =>
@@ -137,9 +138,7 @@ export default function GeoWarning() {
                 <li>Highest trust level</li>
               </ul>
               <div className="proxy-price">$10.00</div>
-
               <div id="paypal-10" className="paypal-box" />
-
               <button
                 className="payhero-btn"
                 onClick={() =>
@@ -151,10 +150,9 @@ export default function GeoWarning() {
                 Pay with M-Pesa
               </button>
             </div>
-
           </div>
 
-          {/* 🔹 Proceed & Withdraw Button */}
+          {/* 🔹 Proceed & Withdraw button */}
           {!checking && (
             <button
               className="proceed-withdraw-btn"
