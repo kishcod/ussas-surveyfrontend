@@ -258,7 +258,10 @@ body {
    DASHBOARD
 ===================================================== */
 .dashboard-container {
-  padding: 20px;
+ width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 24px;
 }
 
 .brand-bar {
