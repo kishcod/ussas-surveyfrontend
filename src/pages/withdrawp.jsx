@@ -1,21 +1,26 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/withdrawp.css";
-import API from "../api"; // your backend base URL
+import API from "../api";
 
-// Component name must be uppercase
 export default function WithdrawP() {
   const navigate = useNavigate();
 
-  // 🔹 User balance & token
+  // 🔹 User balance & token (FORCED numbers)
   const [balance, setBalance] = useState(0);
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user")) || {};
-    setBalance(user.balance || 0);
-    const t = localStorage.getItem("token") || "";
-    setToken(t);
+    try {
+      const userRaw = localStorage.getItem("user");
+      const user = userRaw ? JSON.parse(userRaw) : {};
+
+      setBalance(Number(user.balance) || 0);
+      setToken(localStorage.getItem("token") || "");
+    } catch (err) {
+      console.error("Failed to load user:", err);
+      setBalance(0);
+    }
   }, []);
 
   // 🔹 Form state
@@ -28,19 +33,23 @@ export default function WithdrawP() {
 
   // 🔹 Submit withdrawal
   const submitWithdraw = async () => {
-    if (!amount || Number(amount) <= 0) {
+    const withdrawAmount = Number(amount);
+
+    if (!withdrawAmount || withdrawAmount <= 0) {
       alert("Enter a valid withdrawal amount");
       return;
     }
 
-    if (Number(amount) > balance) {
+    if (withdrawAmount > balance) {
       alert("Insufficient balance");
       return;
     }
 
-    if (method === "mpesa" && (!mpesaNumber || !mpesaAmount)) {
-      alert("Enter M-Pesa phone number and amount");
-      return;
+    if (method === "mpesa") {
+      if (!mpesaNumber || !mpesaAmount || Number(mpesaAmount) <= 0) {
+        alert("Enter valid M-Pesa details");
+        return;
+      }
     }
 
     try {
@@ -53,10 +62,10 @@ export default function WithdrawP() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          amount,
+          amount: withdrawAmount,
           method,
           mpesa_number: mpesaNumber,
-          mpesa_amount: mpesaAmount,
+          mpesa_amount: Number(mpesaAmount) || null,
         }),
       });
 
@@ -78,7 +87,8 @@ export default function WithdrawP() {
         <h2>Withdraw Funds</h2>
 
         <p className="withdraw-balance">
-          Available Balance: <strong>${(balance ?? 0).toFixed(2)}</strong>
+          Available Balance:{" "}
+          <strong>${balance.toFixed(2)}</strong>
         </p>
 
         {!success ? (
@@ -88,6 +98,7 @@ export default function WithdrawP() {
               placeholder="Amount to withdraw (USD)"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
+              min="0"
             />
 
             <select value={method} onChange={(e) => setMethod(e.target.value)}>
@@ -104,6 +115,7 @@ export default function WithdrawP() {
                   placeholder="Amount in KES"
                   value={mpesaAmount}
                   onChange={(e) => setMpesaAmount(e.target.value)}
+                  min="0"
                 />
                 <input
                   type="tel"
@@ -120,7 +132,7 @@ export default function WithdrawP() {
           </>
         ) : (
           <div className="withdraw-processing">
-            <div className="spinner"></div>
+            <div className="spinner" />
             <h3>Withdrawal Request Submitted</h3>
             <p>Your request has been received. Processing payout…</p>
             <button onClick={() => navigate("/dashboard")}>
@@ -132,3 +144,4 @@ export default function WithdrawP() {
     </div>
   );
 }
+
