@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1e3a8a, #2563eb); /* dark to medium blue */
+  background: linear-gradient(135deg, #020617 0%, #061a2f 40%, #0b2a4a 100%); /* dark to medium blue */
   padding: 16px;
 }
 
@@ -167,4 +167,15 @@
   .withdraw-balance strong {
     font-size: 22px;
   }
+}.withdraw-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;   /* aligns card to top */
+  justify-content: flex-start; /* aligns card to the left */
+  background: linear-gradient(135deg, #1e3a8a, #2563eb); /* SaaS blue */
+  padding: 32px; /* spacing from edges */
 }
+.withdraw-card {
+  margin-left: 32px; /* distance from the left screen edge */
+}
+
