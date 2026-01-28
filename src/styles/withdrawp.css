@@ -20,11 +20,13 @@
   padding: 24px;
   border-radius: 16px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
 }
 
 .withdraw-card h2 {
   text-align: center;
   margin-bottom: 14px;
+  font-size: 20px;
 }
 
 /* ===============================
@@ -63,9 +65,10 @@
    CONVERSION
 =============================== */
 .conversion-text {
-  font-size: 13px;
-  color: #374151;
+  font-size: 14px;
+  color: #10b981; /* green for conversion */
   margin-bottom: 12px;
+  font-weight: 500;
 }
 
 /* ===============================
@@ -89,6 +92,11 @@
   color: #ffffff;
   font-weight: 600;
   cursor: pointer;
+  transition: background 0.2s;
+}
+
+.withdraw-card button:hover:not(:disabled) {
+  background: #1e40af;
 }
 
 .withdraw-card button:disabled {
@@ -116,6 +124,36 @@
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* ===============================
+   MOBILE RESPONSIVE
+=============================== */
+@media (max-width: 480px) {
+  .withdraw-card {
+    padding: 20px;
+    max-width: 100%;
+    border-radius: 12px;
+  }
+
+  .withdraw-card h2 {
+    font-size: 18px;
+  }
+
+  .withdraw-card input,
+  .withdraw-card select,
+  .withdraw-card button {
+    font-size: 14px;
+    height: 42px;
+  }
+
+  .conversion-text {
+    font-size: 13px;
+  }
+
+  .withdraw-balance strong {
+    font-size: 20px;
   }
 }
 
