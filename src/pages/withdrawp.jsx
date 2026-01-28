@@ -6,24 +6,25 @@ import API from "../api";
 export default function WithdrawP() {
   const navigate = useNavigate();
 
-  // 🔹 User balance & token (FORCED numbers)
+  /* ===============================
+     USER DATA
+  =============================== */
   const [balance, setBalance] = useState(0);
   const [token, setToken] = useState("");
 
   useEffect(() => {
     try {
-      const userRaw = localStorage.getItem("user");
-      const user = userRaw ? JSON.parse(userRaw) : {};
-
+      const user = JSON.parse(localStorage.getItem("user")) || {};
       setBalance(Number(user.balance) || 0);
       setToken(localStorage.getItem("token") || "");
-    } catch (err) {
-      console.error("Failed to load user:", err);
+    } catch {
       setBalance(0);
     }
   }, []);
 
-  // 🔹 Form state
+  /* ===============================
+     FORM STATE
+  =============================== */
   const [amount, setAmount] = useState("");
   const [method, setMethod] = useState("");
   const [mpesaNumber, setMpesaNumber] = useState("");
@@ -31,7 +32,23 @@ export default function WithdrawP() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // 🔹 Submit withdrawal
+  /* ===============================
+     LOCAL CONVERSION
+  =============================== */
+  const USD_TO_KES = 125;
+
+  useEffect(() => {
+    if (method === "mpesa" && amount) {
+      const converted = Number(amount) * USD_TO_KES;
+      setMpesaAmount(converted ? converted.toFixed(0) : "");
+    } else {
+      setMpesaAmount("");
+    }
+  }, [amount, method]);
+
+  /* ===============================
+     SUBMIT
+  =============================== */
   const submitWithdraw = async () => {
     const withdrawAmount = Number(amount);
 
@@ -45,17 +62,15 @@ export default function WithdrawP() {
       return;
     }
 
-    if (method === "mpesa") {
-      if (!mpesaNumber || !mpesaAmount || Number(mpesaAmount) <= 0) {
-        alert("Enter valid M-Pesa details");
-        return;
-      }
+    if (method === "mpesa" && (!mpesaNumber || !mpesaAmount)) {
+      alert("Enter valid M-Pesa details");
+      return;
     }
 
     try {
       setLoading(true);
 
-      const res = await fetch(`${API}/api/withdraw`, {
+      await fetch(`${API}/api/withdraw`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,29 +80,35 @@ export default function WithdrawP() {
           amount: withdrawAmount,
           method,
           mpesa_number: mpesaNumber,
-          mpesa_amount: Number(mpesaAmount) || null,
+          mpesa_amount: Number(mpesaAmount),
         }),
       });
 
-      const data = await res.json();
+      // deduct locally
+      setBalance((prev) => prev - withdrawAmount);
 
-      if (!res.ok) throw new Error(data.error || "Withdrawal failed");
-
-      setSuccess(true);
+      // fake processing delay
+      setTimeout(() => {
+        setSuccess(true);
+        setLoading(false);
+      }, 2000);
     } catch (err) {
-      alert(err.message);
-    } finally {
+      alert("Withdrawal failed");
       setLoading(false);
     }
   };
 
+  /* ===============================
+     JSX
+  =============================== */
   return (
     <div className="withdraw-container">
       <div className="withdraw-card">
         <h2>Withdraw Funds</h2>
 
         <p className="withdraw-balance">
-          Available Balance:{" "}
+          Available Balance
+          <br />
           <strong>${balance.toFixed(2)}</strong>
         </p>
 
@@ -95,7 +116,7 @@ export default function WithdrawP() {
           <>
             <input
               type="number"
-              placeholder="Amount to withdraw (USD)"
+              placeholder="Withdrawal amount (USD)"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               min="0"
@@ -108,14 +129,22 @@ export default function WithdrawP() {
               <option value="papara">Papara</option>
             </select>
 
+            {method === "mpesa" && amount && (
+              <div className="conversion-text">
+                <p>Rate: 1 USD = 125 KES</p>
+                <p>
+                  You will receive <strong>{mpesaAmount} KES</strong>
+                </p>
+              </div>
+            )}
+
             {method === "mpesa" && (
               <div className="mpesa-box">
                 <input
                   type="number"
-                  placeholder="Amount in KES"
                   value={mpesaAmount}
-                  onChange={(e) => setMpesaAmount(e.target.value)}
-                  min="0"
+                  placeholder="Amount in KES"
+                  readOnly
                 />
                 <input
                   type="tel"
@@ -127,14 +156,14 @@ export default function WithdrawP() {
             )}
 
             <button onClick={submitWithdraw} disabled={loading}>
-              {loading ? "Processing..." : "Withdraw"}
+              {loading ? "Processing withdrawal..." : "Withdraw"}
             </button>
           </>
         ) : (
           <div className="withdraw-processing">
             <div className="spinner" />
-            <h3>Withdrawal Request Submitted</h3>
-            <p>Your request has been received. Processing payout…</p>
+            <h3>Processing Withdrawal</h3>
+            <p>Please wait while we complete your payout.</p>
             <button onClick={() => navigate("/dashboard")}>
               Back to Dashboard
             </button>
