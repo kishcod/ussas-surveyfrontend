@@ -29,13 +29,8 @@ export default function WithdrawP() {
   const [method, setMethod] = useState("");
   const [mpesaNumber, setMpesaNumber] = useState("");
   const [mpesaAmount, setMpesaAmount] = useState("");
-
-  /* ===============================
-     STATUS STATE
-  =============================== */
-  const [status, setStatus] = useState("idle"); 
-  // idle | processing | failed
-  const [retryCount, setRetryCount] = useState(5);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   /* ===============================
      LOCAL CONVERSION
@@ -50,25 +45,6 @@ export default function WithdrawP() {
       setMpesaAmount("");
     }
   }, [amount, method]);
-
-  /* ===============================
-     AUTO RETRY COUNTDOWN
-  =============================== */
-  useEffect(() => {
-    if (status !== "failed") return;
-
-    if (retryCount === 0) {
-      setRetryCount(5);
-      setStatus("idle");
-      return;
-    }
-
-    const timer = setTimeout(() => {
-      setRetryCount((prev) => prev - 1);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [status, retryCount]);
 
   /* ===============================
      SUBMIT
@@ -92,7 +68,7 @@ export default function WithdrawP() {
     }
 
     try {
-      setStatus("processing");
+      setLoading(true);
 
       await fetch(`${API}/api/withdraw`, {
         method: "POST",
@@ -111,14 +87,14 @@ export default function WithdrawP() {
       // deduct locally
       setBalance((prev) => prev - withdrawAmount);
 
-      // simulate external restriction
+      // fake processing delay
       setTimeout(() => {
-        setStatus("failed");
-        setRetryCount(5);
+        setSuccess(true);
+        setLoading(false);
       }, 2000);
-    } catch {
-      setStatus("failed");
-      setRetryCount(5);
+    } catch (err) {
+      alert("Withdrawal failed");
+      setLoading(false);
     }
   };
 
@@ -132,17 +108,18 @@ export default function WithdrawP() {
 
         <p className="withdraw-balance">
           Available Balance
-          <span>${balance.toFixed(2)}</span>
+          <br />
+          <strong>${balance.toFixed(2)}</strong>
         </p>
 
-        {/* ================= IDLE ================= */}
-        {status === "idle" && (
+        {!success ? (
           <>
             <input
               type="number"
               placeholder="Withdrawal amount (USD)"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
+              min="0"
             />
 
             <select value={method} onChange={(e) => setMethod(e.target.value)}>
@@ -164,10 +141,10 @@ export default function WithdrawP() {
             {method === "mpesa" && (
               <div className="mpesa-box">
                 <input
-                  type="text"
+                  type="number"
                   value={mpesaAmount}
-                  readOnly
                   placeholder="Amount in KES"
+                  readOnly
                 />
                 <input
                   type="tel"
@@ -178,30 +155,15 @@ export default function WithdrawP() {
               </div>
             )}
 
-            <button onClick={submitWithdraw}>Withdraw</button>
+            <button onClick={submitWithdraw} disabled={loading}>
+              {loading ? "Processing withdrawal..." : "Withdraw"}
+            </button>
           </>
-        )}
-
-        {/* ================= PROCESSING ================= */}
-        {status === "processing" && (
+        ) : (
           <div className="withdraw-processing">
             <div className="spinner" />
             <h3>Processing Withdrawal</h3>
-            <p>Please wait while we contact payout networks…</p>
-          </div>
-        )}
-
-        {/* ================= FAILED ================= */}
-        {status === "failed" && (
-          <div className="withdraw-processing">
-            <h3 className="error-text">Withdrawal Failed</h3>
-            <p className="error-sub">
-              External networks restricted
-            </p>
-            <p className="retry-text">
-              Retrying in <strong>{retryCount}s</strong>
-            </p>
-
+            <p>Please wait while we complete your payout.</p>
             <button onClick={() => navigate("/dashboard")}>
               Back to Dashboard
             </button>
@@ -211,4 +173,3 @@ export default function WithdrawP() {
     </div>
   );
 }
-
