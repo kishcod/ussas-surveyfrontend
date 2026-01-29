@@ -111,9 +111,65 @@ export default function Home() {
       {showPrivacy && (
         <Modal onClose={() => setShowPrivacy(false)} title="Privacy Policy">
           <p>
-            We respect your privacy. We collect only necessary information to
-            operate surveys, prevent fraud, and process rewards.
-            We never sell personal data.
+           Privacy Policy
+
+We respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, store, and safeguard your data when you use our platform, including participating in surveys, earning rewards, and requesting payouts. By using our services, you agree to the practices described in this policy.
+
+Information We Collect
+
+We collect only the information necessary to operate our services effectively and securely. This may include basic account information such as your username, email address, and country or region. When you participate in surveys, we may collect non-identifiable survey responses that help us improve our platform and provide insights to our partners.
+
+To prevent fraud and abuse, we may also collect technical information such as IP address, device type, browser details, and activity logs. For payout processing, limited payment-related details (such as a mobile money number or payout method) may be required. We do not collect unnecessary personal data.
+
+How We Use Your Information
+
+The information we collect is used strictly for legitimate purposes, including:
+
+Operating and maintaining the platform
+
+Verifying user eligibility for surveys and rewards
+
+Preventing fraud, abuse, and unauthorized access
+
+Processing withdrawals and payouts
+
+Improving platform performance and user experience
+
+Complying with legal and regulatory obligations
+
+We do not use your data for unrelated purposes.
+
+Data Sharing and Disclosure
+
+We take data sharing seriously. We do not sell, rent, or trade your personal information to third parties. Your data may only be shared in limited circumstances, such as:
+
+With trusted service providers who assist with hosting, analytics, or payment processing
+
+When required by law, regulation, or legal process
+
+To protect the rights, safety, and security of our platform and users
+
+Any third parties we work with are required to handle data responsibly and securely.
+
+Data Security
+
+We implement reasonable technical and organizational measures to protect your information from unauthorized access, loss, misuse, or disclosure. While no system is completely secure, we continuously work to improve our security practices and limit access to sensitive data to authorized personnel only.
+
+Cookies and Tracking Technologies
+
+We may use cookies or similar technologies to enhance user experience, remember preferences, and analyze platform usage. These technologies do not collect sensitive personal information and can usually be controlled through your browser settings.
+
+Your Rights and Choices
+
+You have the right to access, update, or correct your account information. You may also request deletion of your account, subject to legal and operational requirements. If you have concerns about how your data is handled, you may contact us for clarification or assistance.
+
+Policy Updates
+
+We may update this Privacy Policy from time to time to reflect changes in our services or legal requirements. Any updates will be posted on this page, and continued use of the platform constitutes acceptance of the revised policy.
+
+Contact Us
+
+If you have questions or concerns about this Privacy Policy or how your data is handled, please contact us through our official support channels.
           </p>
         </Modal>
       )}
