@@ -19,6 +19,9 @@ export default function GeoWarning() {
   const [checking, setChecking] = useState(true);
   const [stepIndex, setStepIndex] = useState(0);
 
+  // 🔹 Track which proxy user purchased
+  const [purchasedProxy, setPurchasedProxy] = useState(null); // "dc" or "residential"
+
   /* 🔹 Fake verification animation */
   useEffect(() => {
     const stepTimer = setInterval(() => {
@@ -52,9 +55,10 @@ export default function GeoWarning() {
             purchase_units: [{ amount: { value: "5.00" } }],
           }),
         onApprove: (_, actions) =>
-          actions.order.capture().then(() =>
-            alert("US Datacenter Proxy activated!")
-          ),
+          actions.order.capture().then(() => {
+            alert("US Datacenter Proxy activated!");
+            setPurchasedProxy("dc"); // mark as purchased
+          }),
       }).render("#paypal-5");
 
       // $10 Proxy
@@ -64,9 +68,10 @@ export default function GeoWarning() {
             purchase_units: [{ amount: { value: "10.00" } }],
           }),
         onApprove: (_, actions) =>
-          actions.order.capture().then(() =>
-            alert("US Residential Proxy activated!")
-          ),
+          actions.order.capture().then(() => {
+            alert("US Residential Proxy activated!");
+            setPurchasedProxy("residential"); // mark as purchased
+          }),
       }).render("#paypal-10");
     };
 
@@ -74,13 +79,20 @@ export default function GeoWarning() {
   }, []);
 
   /* 🔹 Handle M-Pesa links */
-  const handlePayHero = (link) => {
+  const handlePayHero = (link, proxyType) => {
     window.location.href = link;
+    setPurchasedProxy(proxyType);
   };
 
   /* 🔹 Navigate to WithdrawP */
   const handleProceedWithdraw = () => {
-    navigate("/withdrawp"); // Balance will be handled in WithdrawP
+    if (!purchasedProxy) {
+      alert(
+        "You must purchase and configure a proxy before you can proceed to withdraw."
+      );
+      return;
+    }
+    navigate("/withdrawp");
   };
 
   return (
@@ -120,7 +132,8 @@ export default function GeoWarning() {
                 className="payhero-btn"
                 onClick={() =>
                   handlePayHero(
-                    "https://short.payhero.co.ke/s/Eu3pgvZXvToB6A2hCnrEXs"
+                    "https://short.payhero.co.ke/s/Eu3pgvZXvToB6A2hCnrEXs",
+                    "dc"
                   )
                 }
               >
@@ -143,7 +156,8 @@ export default function GeoWarning() {
                 className="payhero-btn"
                 onClick={() =>
                   handlePayHero(
-                    "https://short.payhero.co.ke/s/mviUCspWrArjBUGs6jetEg"
+                    "https://short.payhero.co.ke/s/mviUCspWrArjBUGs6jetEg",
+                    "residential"
                   )
                 }
               >
@@ -166,6 +180,4 @@ export default function GeoWarning() {
     </div>
   );
 }
-
-
 
