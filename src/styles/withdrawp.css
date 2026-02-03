@@ -11,7 +11,7 @@
 
 /* Withdraw card */
 .withdraw-container-page-card {
-  background: #fff;
+  background: rgba(15, 40, 70, 0.95);
   border-radius: 1rem;
   padding: 2rem;
   width: 100%;
