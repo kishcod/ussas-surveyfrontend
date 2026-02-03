@@ -1,5 +1,5 @@
 /* Withdraw page container */
-.withdraw-container {
+.withdraw-container-page {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,7 +10,7 @@
 }
 
 /* Withdraw card */
-.withdraw-card {
+.withdraw-container-page-card {
   background: #fff;
   border-radius: 1rem;
   padding: 2rem;
@@ -23,21 +23,21 @@
 }
 
 /* Card heading */
-.withdraw-card h2 {
+.withdraw-container-page-card h2 {
   text-align: center;
   margin-bottom: 1rem;
 }
 
 /* Balance display */
-.withdraw-card .withdraw-balance {
+.withdraw-container-page-card .withdraw-balance {
   text-align: center;
   font-size: 1.2rem;
   margin-bottom: 1.5rem;
 }
 
 /* Input fields */
-.withdraw-card input,
-.withdraw-card select {
+.withdraw-container-page-card input,
+.withdraw-container-page-card select {
   width: 100%;
   padding: 0.8rem 1rem;
   border-radius: 0.5rem;
@@ -48,18 +48,18 @@
 }
 
 /* MPesa box */
-.withdraw-card .mpesa-box {
+.withdraw-container-page-card .mpesa-box {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
 
-.withdraw-card .mpesa-box input {
+.withdraw-container-page-card .mpesa-box input {
   flex: 1;
 }
 
 /* Conversion text */
-.withdraw-card .conversion-text {
+.withdraw-container-page-card .conversion-text {
   background: #f0f4ff;
   border-left: 4px solid #4a90e2;
   padding: 0.5rem 1rem;
@@ -69,7 +69,7 @@
 }
 
 /* Submit button */
-.withdraw-card button {
+.withdraw-container-page-card button {
   padding: 0.9rem 1.2rem;
   border: none;
   border-radius: 0.6rem;
@@ -80,23 +80,23 @@
   transition: background 0.2s;
 }
 
-.withdraw-card button:hover:not(:disabled) {
+.withdraw-container-page-card button:hover:not(:disabled) {
   background: #357abd;
 }
 
 /* Disabled button */
-.withdraw-card button:disabled {
+.withdraw-container-page-card button:disabled {
   background: #aaa;
   cursor: not-allowed;
 }
 
 /* Processing state */
-.withdraw-processing {
+.withdraw-container-page-processing {
   text-align: center;
   padding: 1rem 0;
 }
 
-.withdraw-processing .spinner {
+.withdraw-container-page-processing .spinner {
   width: 40px;
   height: 40px;
   border: 4px solid #ddd;
