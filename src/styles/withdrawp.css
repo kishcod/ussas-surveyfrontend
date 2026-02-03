@@ -1,173 +1,209 @@
 /* ===============================
-   WITHDRAW PAGE WRAPPER
+   PAGE WRAPPER
 ================================ */
-.withdrawp-container {
+.withdraw-container-page {
   min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a, #020617);
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 2rem;
-  background: radial-gradient(
-    circle at top left,
-    #eef3ff,
-    #f7f9fc 45%,
-    #ffffff 75%
-  );
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  justify-content: center;
+  padding: 24px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
 }
 
 /* ===============================
    CARD
 ================================ */
-.withdrawp-card {
-  width: 100%;
-  max-width: 460px;
-  background: rgba(15, 40, 70, 0.95);
+.withdraw-container-page-card {
+  background: #020617;
+  border: 1px solid #1e293b;
   border-radius: 16px;
-  padding: 2rem;
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.15),
-    0 4px 10px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  color: #ffffff;
-}
-
-/* ===============================
-   HEADERS & BALANCE
-================================ */
-.withdrawp-card h2 {
-  text-align: center;
-  margin-bottom: 0.5rem;
-}
-
-.withdrawp-balance {
-  text-align: center;
-  font-size: 1.1rem;
-  opacity: 0.95;
-}
-
-/* ===============================
-   INPUTS & SELECT
-================================ */
-.withdrawp-card input,
-.withdrawp-card select {
+  padding: 28px;
   width: 100%;
-  padding: 0.85rem 1rem;
+  max-width: 420px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.withdraw-container-page-card h2 {
+  color: #f8fafc;
+  margin-bottom: 16px;
+  font-size: 22px;
+}
+
+/* ===============================
+   BALANCE
+================================ */
+.withdraw-container-page-balance {
+  text-align: center;
+  color: #94a3b8;
+  margin-bottom: 20px;
+}
+
+.withdraw-container-page-balance strong {
+  display: block;
+  font-size: 26px;
+  color: #22c55e;
+  margin-top: 6px;
+}
+
+/* ===============================
+   INPUTS
+================================ */
+.withdraw-container-page input,
+.withdraw-container-page select {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  background: #020617;
+  border: 1px solid #334155;
   border-radius: 10px;
-  border: 1px solid #cfd8e3;
-  font-size: 0.95rem;
-  background: #ffffff;
-  color: #1e293b;
-  transition: all 0.2s ease;
+  color: #f8fafc;
+  font-size: 14px;
 }
 
-/* Focus */
-.withdrawp-card input:focus,
-.withdrawp-card select:focus {
+.withdraw-container-page input::placeholder {
+  color: #64748b;
+}
+
+.withdraw-container-page input:focus,
+.withdraw-container-page select:focus {
   outline: none;
-  border-color: #4f7cff;
-  box-shadow: 0 0 0 3px rgba(79, 124, 255, 0.2);
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
 }
 
 /* ===============================
-   FIELD VALIDATION (CSS ONLY)
+   ERROR MESSAGE
 ================================ */
-.withdrawp-card input:invalid,
-.withdrawp-card select:invalid {
-  border-color: #ff6b6b;
-}
-
-.withdrawp-card input:valid,
-.withdrawp-card select:valid {
-  border-color: #22c55e;
+.withdraw-container-page-error {
+  background: #450a0a;
+  border: 1px solid #dc2626;
+  color: #fecaca;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 14px;
+  text-align: center;
 }
 
 /* ===============================
-   MPESA BOX
+   CONVERSION BOX (LIVE FX)
 ================================ */
-.withdrawp-mpesa-box {
-  display: flex;
-  gap: 0.6rem;
-}
-
-.withdrawp-mpesa-box input {
-  flex: 1;
-}
-
-/* ===============================
-   CONVERSION (BOLD + LIVE)
-================================ */
-.withdrawp-conversion {
-  background: linear-gradient(135deg, #eef3ff, #f8faff);
-  border-left: 5px solid #4f7cff;
+.withdraw-container-page-conversion-box {
+  background: linear-gradient(135deg, #020617, #020617);
+  border: 1px solid #38bdf8;
   border-radius: 12px;
-  padding: 0.9rem 1rem;
+  padding: 14px;
+  margin-bottom: 14px;
+  animation: pulseGlow 1.8s infinite;
+}
+
+.withdraw-container-page-conversion-box p {
+  margin: 0;
+  color: #e5e7eb;
+  font-size: 14px;
+}
+
+.fx-text {
+  color: #38bdf8;
   font-weight: 600;
-  color: #1e293b;
-  animation: withdrawp-pulse 1.4s infinite;
+  margin-bottom: 4px;
 }
 
-.withdrawp-conversion strong {
-  color: #4f7cff;
-  font-size: 1.15rem;
-}
-
-/* Pulse animation */
-@keyframes withdrawp-pulse {
+@keyframes pulseGlow {
   0% {
-    box-shadow: 0 0 0 rgba(79, 124, 255, 0.3);
+    box-shadow: 0 0 0 rgba(56, 189, 248, 0.2);
   }
   50% {
-    box-shadow: 0 0 14px rgba(79, 124, 255, 0.35);
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.45);
   }
   100% {
-    box-shadow: 0 0 0 rgba(79, 124, 255, 0.3);
+    box-shadow: 0 0 0 rgba(56, 189, 248, 0.2);
   }
+}
+
+/* ===============================
+   M-PESA / PAYPAL BOXES
+================================ */
+.withdraw-container-page-mpesa-box,
+.withdraw-container-page-paypal-box {
+  background: #020617;
+  border: 1px dashed #334155;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 14px;
 }
 
 /* ===============================
    BUTTON
 ================================ */
-.withdrawp-card button {
-  padding: 0.9rem;
+.withdraw-container-page-continue-btn {
+  width: 100%;
+  padding: 14px;
   border-radius: 12px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #022c22;
+  font-size: 15px;
+  font-weight: 700;
   border: none;
-  background: linear-gradient(135deg, #4f7cff, #6b8cff);
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.withdrawp-card button:hover:not(:disabled) {
+.withdraw-container-page-continue-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(79, 124, 255, 0.45);
+  box-shadow: 0 10px 25px rgba(34, 197, 94, 0.35);
 }
 
-.withdrawp-card button:disabled {
-  background: #94a3b8;
+.withdraw-container-page-continue-btn:disabled {
+  opacity: 0.6;
   cursor: not-allowed;
-  box-shadow: none;
 }
 
 /* ===============================
-   PROCESSING STATE
+   PROCESSING / RESULT
 ================================ */
-.withdrawp-processing {
+.withdraw-container-page-processing {
   text-align: center;
-  padding: 1rem 0;
+  color: #e5e7eb;
+  padding: 20px 0;
 }
 
-.withdrawp-spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #e5e7eb;
-  border-top: 4px solid #4f7cff;
+.withdraw-container-page-processing h3 {
+  color: #f87171;
+  margin-top: 12px;
+}
+
+.withdraw-container-page-processing p {
+  color: #94a3b8;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+.withdraw-container-page-processing button {
+  background: transparent;
+  border: 1px solid #334155;
+  color: #e5e7eb;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.withdraw-container-page-processing button:hover {
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+/* ===============================
+   SPINNER
+================================ */
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 4px solid #1e293b;
+  border-top-color: #38bdf8;
   border-radius: 50%;
-  margin: 0 auto 1rem;
+  margin: 0 auto 12px;
   animation: spin 1s linear infinite;
 }
 
@@ -176,17 +212,3 @@
     transform: rotate(360deg);
   }
 }
-
-/* ===============================
-   MOBILE
-================================ */
-@media (max-width: 480px) {
-  .withdrawp-card {
-    padding: 1.5rem;
-  }
-
-  .withdrawp-mpesa-box {
-    flex-direction: column;
-  }
-}
-
