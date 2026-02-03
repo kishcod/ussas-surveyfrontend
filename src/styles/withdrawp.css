@@ -110,3 +110,24 @@
   to { transform: rotate(360deg); }
 }
 
+@media (max-width: 480px) {
+  .withdraw-container-page-card {
+    padding: 1.5rem;
+  }
+
+  .withdraw-container-page-mpesa-box {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .withdraw-container-page-continue-btn {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 0;
+  }
+
+  .withdraw-container-page-conversion-box {
+    font-size: 0.88rem;
+    padding: 8px 10px;
+  }
+}
