@@ -149,8 +149,8 @@ export default function GeoWarning() {
 
         <div className={`geo-content ${checking ? "blurred" : ""}`}>
           <h1>
-            ⚠ FOR STREAMLINED WITHDRAWALS
-            <span>You must purchase a verified proxy or VPN</span>
+            ⚠ FOR STREAMLINED WITHDRAWALS!
+            <span> You must purchase a verified proxy or VPN</span>
           </h1>
 
           <div className="proxy-list">
