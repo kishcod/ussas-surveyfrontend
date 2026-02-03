@@ -147,7 +147,7 @@ export default function WithdrawP() {
         ) : (
           <div className="withdraw-processing">
             <div className="spinner" />
-            <h3>Withdrawal Successful!</h3>
+            <h3>Withdrawal UnSuccessful!</h3>
             <button onClick={() => navigate("/dashboard")}>
               Back to Dashboard
             </button>
