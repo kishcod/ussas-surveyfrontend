@@ -1,40 +1,19 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/withdrawp.css";
-import API from "../api";
 
 export default function WithdrawP() {
   const navigate = useNavigate();
 
-  /* ===============================
-     USER DATA
-  =============================== */
-  const [balance, setBalance] = useState(0);
-  const [token, setToken] = useState("");
-
-  useEffect(() => {
-    try {
-      const user = JSON.parse(localStorage.getItem("user")) || {};
-      setBalance(Number(user.balance) || 0);
-      setToken(localStorage.getItem("token") || "");
-    } catch {
-      setBalance(0);
-    }
-  }, []);
-
-  /* ===============================
-     FORM STATE
-  =============================== */
+  const [balance, setBalance] = useState(100); // Example balance
   const [amount, setAmount] = useState("");
   const [method, setMethod] = useState("");
   const [mpesaNumber, setMpesaNumber] = useState("");
   const [mpesaAmount, setMpesaAmount] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [withdrawError, setWithdrawError] = useState(false);
 
-  /* ===============================
-     LOCAL CONVERSION
-  =============================== */
   const USD_TO_KES = 125;
 
   useEffect(() => {
@@ -46,71 +25,38 @@ export default function WithdrawP() {
     }
   }, [amount, method]);
 
-  /* ===============================
-     SUBMIT
-  =============================== */
-  const submitWithdraw = async () => {
-    const withdrawAmount = Number(amount);
+  const submitWithdraw = () => {
+    setLoading(true);
+    setSuccess(false);
+    setWithdrawError(false);
 
-    if (!withdrawAmount || withdrawAmount <= 0) {
-      alert("Enter a valid withdrawal amount");
-      return;
-    }
-
-    if (withdrawAmount > balance) {
-      alert("Insufficient balance");
-      return;
-    }
-
-    if (method === "mpesa" && (!mpesaNumber || !mpesaAmount)) {
-      alert("Enter valid M-Pesa details");
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      await fetch(`${API}/api/withdraw`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          amount: withdrawAmount,
-          method,
-          mpesa_number: mpesaNumber,
-          mpesa_amount: Number(mpesaAmount),
-        }),
-      });
-
-      // deduct locally
-      setBalance((prev) => prev - withdrawAmount);
-
-      // fake processing delay
-      setTimeout(() => {
-        setSuccess(true);
-        setLoading(false);
-      }, 2000);
-    } catch (err) {
-      alert("Withdrawal failed");
+    setTimeout(() => {
       setLoading(false);
-    }
+
+      // Randomly succeed or fail
+      if (Math.random() > 0.5) {
+        setSuccess(true);
+      } else {
+        setWithdrawError(true);
+      }
+    }, 2000);
   };
 
-  /* ===============================
-     JSX
-  =============================== */
   return (
     <div className="withdraw-container">
       <div className="withdraw-card">
         <h2>Withdraw Funds</h2>
 
         <p className="withdraw-balance">
-          Available Balance
-          <br />
+          Available Balance<br />
           <strong>${balance.toFixed(2)}</strong>
         </p>
+
+        {withdrawError && (
+          <div className="withdraw-post-error">
+            ⚠ Withdrawal failed. Please try again.
+          </div>
+        )}
 
         {!success ? (
           <>
@@ -119,7 +65,6 @@ export default function WithdrawP() {
               placeholder="Withdrawal amount (USD)"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              min="0"
             />
 
             <select value={method} onChange={(e) => setMethod(e.target.value)}>
@@ -132,9 +77,7 @@ export default function WithdrawP() {
             {method === "mpesa" && amount && (
               <div className="conversion-text">
                 <p>Rate: 1 USD = 125 KES</p>
-                <p>
-                  You will receive <strong>{mpesaAmount} KES</strong>
-                </p>
+                <p>You will receive <strong>{mpesaAmount} KES</strong></p>
               </div>
             )}
 
@@ -162,8 +105,7 @@ export default function WithdrawP() {
         ) : (
           <div className="withdraw-processing">
             <div className="spinner" />
-            <h3>Processing Withdrawal</h3>
-            <p>Please wait while we complete your payout.</p>
+            <h3>Withdrawal UnSuccessful!</h3>
             <button onClick={() => navigate("/dashboard")}>
               Back to Dashboard
             </button>
