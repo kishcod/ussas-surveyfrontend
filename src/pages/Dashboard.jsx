@@ -14,7 +14,7 @@ export default function Dashboard() {
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [showSurveyComplete, setShowSurveyComplete] = useState(false);
   const [lastReward, setLastReward] = useState(0);
-  const [showProfileModal, setShowProfileModal] = useState(false);
+ const [showProfileModal, setShowProfileModal] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const storedUser = JSON.parse(localStorage.getItem("user")) || {};
