@@ -5,7 +5,10 @@ import "../styles/withdrawp.css";
 export default function WithdrawP() {
   const navigate = useNavigate();
 
-  const [balance, setBalance] = useState(100); // Example balance
+  /* ===============================
+     STATE
+  =============================== */
+  const [balance, setBalance] = useState(0);
   const [amount, setAmount] = useState("");
   const [method, setMethod] = useState("");
   const [mpesaNumber, setMpesaNumber] = useState("");
@@ -16,6 +19,22 @@ export default function WithdrawP() {
 
   const USD_TO_KES = 125;
 
+  /* ===============================
+     LOAD BALANCE
+  =============================== */
+  useEffect(() => {
+    try {
+      // Pull from dashboard/localStorage
+      const user = JSON.parse(localStorage.getItem("user")) || {};
+      setBalance(Number(user.balance) || 0);
+    } catch {
+      setBalance(0);
+    }
+  }, []);
+
+  /* ===============================
+     M-PESA CONVERSION
+  =============================== */
   useEffect(() => {
     if (method === "mpesa" && amount) {
       const converted = Number(amount) * USD_TO_KES;
@@ -25,17 +44,40 @@ export default function WithdrawP() {
     }
   }, [amount, method]);
 
+  /* ===============================
+     SUBMIT
+  =============================== */
   const submitWithdraw = () => {
-    setLoading(true);
-    setSuccess(false);
     setWithdrawError(false);
 
+    // Validation checks
+    if (!amount || Number(amount) <= 0) {
+      setWithdrawError(true);
+      return;
+    }
+
+    if (Number(amount) > balance) {
+      setWithdrawError(true);
+      return;
+    }
+
+    if (!method) {
+      setWithdrawError(true);
+      return;
+    }
+
+    if (method === "mpesa" && (!mpesaNumber || !mpesaAmount)) {
+      setWithdrawError(true);
+      return;
+    }
+
+    setLoading(true);
     setTimeout(() => {
       setLoading(false);
-
-      // Randomly succeed or fail
+      // Randomly fail to simulate withdrawal
       if (Math.random() > 0.5) {
         setSuccess(true);
+        setBalance((prev) => prev - Number(amount));
       } else {
         setWithdrawError(true);
       }
@@ -54,7 +96,7 @@ export default function WithdrawP() {
 
         {withdrawError && (
           <div className="withdraw-post-error">
-            ⚠ Withdrawal failed. Please try again.
+            ⚠ Withdrawal failed. Check all fields and try again.
           </div>
         )}
 
@@ -105,7 +147,7 @@ export default function WithdrawP() {
         ) : (
           <div className="withdraw-processing">
             <div className="spinner" />
-            <h3>Withdrawal UnSuccessful!</h3>
+            <h3>Withdrawal Successful!</h3>
             <button onClick={() => navigate("/dashboard")}>
               Back to Dashboard
             </button>
