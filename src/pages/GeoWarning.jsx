@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/GeoWarning.css";
+
 import dcProxyImg from "../assets/us-proxy.png";
 import resProxyImg from "../assets/residential-proxy.png";
+import catoVpnImg from "../assets/cato-vpn.png";
 
 export default function GeoWarning() {
   const navigate = useNavigate();
 
-  /* 🔹 Verification steps */
   const steps = [
     "Obtaining IP address…",
     "Checking geolocation…",
@@ -18,14 +19,12 @@ export default function GeoWarning() {
 
   const [checking, setChecking] = useState(true);
   const [stepIndex, setStepIndex] = useState(0);
+  const [purchasedProxy, setPurchasedProxy] = useState(null);
 
-  // 🔹 Track which proxy user purchased
-  const [purchasedProxy, setPurchasedProxy] = useState(null); // "dc" or "residential"
-
-  /* 🔹 Fake verification animation */
+  /* ---------------- Fake verification ---------------- */
   useEffect(() => {
     const stepTimer = setInterval(() => {
-      setStepIndex((prev) => (prev < steps.length - 1 ? prev + 1 : prev));
+      setStepIndex((i) => (i < steps.length - 1 ? i + 1 : i));
     }, 1800);
 
     const finishTimer = setTimeout(() => {
@@ -39,7 +38,7 @@ export default function GeoWarning() {
     };
   }, []);
 
-  /* 🔹 Load PayPal buttons */
+  /* ---------------- PayPal ---------------- */
   useEffect(() => {
     if (window.paypal) return;
 
@@ -47,8 +46,9 @@ export default function GeoWarning() {
     script.src =
       "https://www.paypal.com/sdk/js?client-id=Abvr9JQwh4aABOQkIoz7Dn8kcjEaPHlDV49WPqUUR3YfKSvqYF5TBcQj6WiqsAFajtSudQfHugP0tbz8&currency=USD";
     script.async = true;
+
     script.onload = () => {
-      // $5 Proxy
+      // $5 Datacenter
       window.paypal.Buttons({
         createOrder: (_, actions) =>
           actions.order.create({
@@ -56,12 +56,12 @@ export default function GeoWarning() {
           }),
         onApprove: (_, actions) =>
           actions.order.capture().then(() => {
-            alert("US Datacenter Proxy activated!");
-            setPurchasedProxy("dc"); // mark as purchased
+            alert("US Datacenter Proxy activated");
+            setPurchasedProxy("dc");
           }),
       }).render("#paypal-5");
 
-      // $10 Proxy
+      // $10 Residential
       window.paypal.Buttons({
         createOrder: (_, actions) =>
           actions.order.create({
@@ -69,65 +69,98 @@ export default function GeoWarning() {
           }),
         onApprove: (_, actions) =>
           actions.order.capture().then(() => {
-            alert("US Residential Proxy activated!");
-            setPurchasedProxy("residential"); // mark as purchased
+            alert("US Residential Proxy activated");
+            setPurchasedProxy("residential");
           }),
       }).render("#paypal-10");
+
+      // $2.50 Cato VPN
+      window.paypal.Buttons({
+        createOrder: (_, actions) =>
+          actions.order.create({
+            purchase_units: [{ amount: { value: "2.50" } }],
+          }),
+        onApprove: (_, actions) =>
+          actions.order.capture().then(() => {
+            alert("Cato VPN activated");
+            setPurchasedProxy("cato");
+          }),
+      }).render("#paypal-2-5");
     };
 
     document.body.appendChild(script);
   }, []);
 
-  /* 🔹 Handle M-Pesa links */
-  const handlePayHero = (link, proxyType) => {
+  /* ---------------- PayHero ---------------- */
+  const handlePayHero = (link, type) => {
     window.location.href = link;
-    setPurchasedProxy(proxyType);
+    setPurchasedProxy(type);
   };
 
-  /* 🔹 Navigate to WithdrawP */
+  /* ---------------- Download ---------------- */
+  const handleDownload = async () => {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch("/api/download/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ product: purchasedProxy }),
+    });
+
+    const data = await res.json();
+    if (data.token) {
+      window.location.href = `/api/download?token=${data.token}`;
+    }
+  };
+
   const handleProceedWithdraw = () => {
     if (!purchasedProxy) {
-      alert(
-        "You must purchase and configure a proxy before you can proceed to withdraw."
-      );
+      alert("Purchase a proxy or VPN first");
       return;
     }
     navigate("/withdrawp");
   };
 
+  /* ---------------- UI ---------------- */
+  const DownloadLink = () =>
+    purchasedProxy ? (
+      <button className="download-link active" onClick={handleDownload}>
+        ⬇ Download file
+      </button>
+    ) : (
+      <span className="download-link locked">🔒 Download after payment</span>
+    );
+
   return (
     <div className="geo-page">
       <div className="geo-card">
-        {/* 🔹 Verification overlay */}
         {checking && (
           <div className="checking-overlay">
             <div className="checking-box">
               <div className="spinner" />
-              <p className="checking-text">{steps[stepIndex]}</p>
-              <span className="checking-sub">Please do not refresh</span>
+              <p>{steps[stepIndex]}</p>
+              <span>Please do not refresh</span>
             </div>
           </div>
         )}
 
-        {/* 🔹 Main content */}
         <div className={`geo-content ${checking ? "blurred" : ""}`}>
           <h1>
             ⚠ Location Change Detected
-            <span>You must purchase a verified proxy to continue</span>
+            <span>You must purchase a verified proxy or VPN</span>
           </h1>
 
           <div className="proxy-list">
-            {/* 🔹 $5 Proxy */}
+            {/* Datacenter */}
             <div className="proxy-card">
-              <img src={dcProxyImg} alt="US Datacenter Proxy" />
+              <img src={dcProxyImg} alt="Datacenter Proxy" />
+              <DownloadLink />
               <h3>US Datacenter Proxy</h3>
-              <ul>
-                <li>12 months access to all surveys</li>
-                <li>Unlimited connections</li>
-                <li>Secure & reliable</li>
-              </ul>
               <div className="proxy-price">$5.00</div>
-              <div id="paypal-5" className="paypal-box" />
+              <div id="paypal-5" />
               <button
                 className="payhero-btn"
                 onClick={() =>
@@ -141,17 +174,13 @@ export default function GeoWarning() {
               </button>
             </div>
 
-            {/* 🔹 $10 Proxy */}
+            {/* Residential */}
             <div className="proxy-card premium">
-              <img src={resProxyImg} alt="US Residential Proxy" />
+              <img src={resProxyImg} alt="Residential Proxy" />
+              <DownloadLink />
               <h3>US Residential Proxy</h3>
-              <ul>
-                <li>12 months access to all surveys</li>
-                <li>Unlimited connections</li>
-                <li>Highest trust level</li>
-              </ul>
               <div className="proxy-price">$10.00</div>
-              <div id="paypal-10" className="paypal-box" />
+              <div id="paypal-10" />
               <button
                 className="payhero-btn"
                 onClick={() =>
@@ -164,9 +193,25 @@ export default function GeoWarning() {
                 Pay with M-Pesa
               </button>
             </div>
+
+            {/* Cato VPN */}
+            <div className="proxy-card vpn">
+              <img src={catoVpnImg} alt="Cato VPN" />
+              <DownloadLink />
+              <h3>Cato VPN</h3>
+              <div className="proxy-price">$2.50</div>
+              <div id="paypal-2-5" />
+              <button
+                className="payhero-btn"
+                onClick={() =>
+                  handlePayHero("PAYHERO_CATO_LINK", "cato")
+                }
+              >
+                Pay with M-Pesa
+              </button>
+            </div>
           </div>
 
-          {/* 🔹 Proceed & Withdraw button */}
           {!checking && (
             <button
               className="proceed-withdraw-btn"
