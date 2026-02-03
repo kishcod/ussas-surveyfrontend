@@ -13,22 +13,19 @@ export default function WithdrawP() {
   const [method, setMethod] = useState("");
   const [mpesaNumber, setMpesaNumber] = useState("");
   const [mpesaAmount, setMpesaAmount] = useState("");
+  const [paypalEmail, setPaypalEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [withdrawError, setWithdrawError] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+  const [error, setError] = useState(false);
 
   const USD_TO_KES = 125;
 
   /* ===============================
-     LOAD BALANCE
+     LOAD BALANCE FROM DASHBOARD
   =============================== */
   useEffect(() => {
-    try {
-      const user = JSON.parse(localStorage.getItem("user")) || {};
-      setBalance(Number(user.balance) || 0);
-    } catch {
-      setBalance(0);
-    }
+    const user = JSON.parse(localStorage.getItem("user")) || {};
+    setBalance(Number(user.balance) || 0);
   }, []);
 
   /* ===============================
@@ -36,49 +33,34 @@ export default function WithdrawP() {
   =============================== */
   useEffect(() => {
     if (method === "mpesa" && amount) {
-      const converted = Number(amount) * USD_TO_KES;
-      setMpesaAmount(converted ? converted.toFixed(0) : "");
+      setMpesaAmount((Number(amount) * USD_TO_KES).toFixed(0));
     } else {
       setMpesaAmount("");
     }
   }, [amount, method]);
 
   /* ===============================
-     SUBMIT
+     SUBMIT (FRONTEND ONLY)
   =============================== */
   const submitWithdraw = () => {
-    setWithdrawError(false);
+    setError(false);
 
-    if (!amount || Number(amount) <= 0) {
-      setWithdrawError(true);
-      return;
-    }
+    // Basic frontend validation
+    if (!amount || Number(amount) <= 0) return setError(true);
+    if (Number(amount) > balance) return setError(true);
+    if (!method) return setError(true);
 
-    if (Number(amount) > balance) {
-      setWithdrawError(true);
-      return;
-    }
+    if (method === "mpesa" && (!mpesaNumber || !mpesaAmount))
+      return setError(true);
 
-    if (!method) {
-      setWithdrawError(true);
-      return;
-    }
-
-    if (method === "mpesa" && (!mpesaNumber || !mpesaAmount)) {
-      setWithdrawError(true);
-      return;
-    }
+    if (method === "paypal" && !paypalEmail)
+      return setError(true);
 
     setLoading(true);
+
     setTimeout(() => {
       setLoading(false);
-      // Random success/fail simulation
-      if (Math.random() > 0.5) {
-        setSuccess(true);
-        setBalance((prev) => prev - Number(amount));
-      } else {
-        setWithdrawError(true);
-      }
+      setShowResult(true); // Always fail (frontend simulation)
     }, 2000);
   };
 
@@ -88,17 +70,18 @@ export default function WithdrawP() {
         <h2>Withdraw Funds</h2>
 
         <p className="withdraw-container-page-balance">
-          Available Balance<br />
+          Available Balance
+          <br />
           <strong>${balance.toFixed(2)}</strong>
         </p>
 
-        {withdrawError && (
-          <div className="withdraw-container-page-processing">
-            ⚠ Withdrawal failed. Check all fields and try again.
+        {error && (
+          <div className="withdraw-container-page-error">
+            ⚠ Please fill in all required fields correctly
           </div>
         )}
 
-        {!success ? (
+        {!showResult ? (
           <>
             <input
               type="number"
@@ -118,9 +101,10 @@ export default function WithdrawP() {
               <option value="papara">Papara</option>
             </select>
 
+            {/* M-PESA */}
             {method === "mpesa" && amount && (
               <div className="withdraw-container-page-conversion-box">
-                <p className="fx-text">Rate: 1 USD = 125 KES</p>
+                <p className="fx-text">Live rate: 1 USD = 125 KES</p>
                 <p>
                   You will receive <strong>{mpesaAmount} KES</strong>
                 </p>
@@ -129,12 +113,7 @@ export default function WithdrawP() {
 
             {method === "mpesa" && (
               <div className="withdraw-container-page-mpesa-box">
-                <input
-                  type="number"
-                  value={mpesaAmount}
-                  placeholder="Amount in KES"
-                  readOnly
-                />
+                <input type="number" value={mpesaAmount} readOnly />
                 <input
                   type="tel"
                   placeholder="M-Pesa phone number"
@@ -144,18 +123,31 @@ export default function WithdrawP() {
               </div>
             )}
 
+            {/* PAYPAL */}
+            {method === "paypal" && (
+              <div className="withdraw-container-page-paypal-box">
+                <input
+                  type="email"
+                  placeholder="PayPal email address"
+                  value={paypalEmail}
+                  onChange={(e) => setPaypalEmail(e.target.value)}
+                />
+              </div>
+            )}
+
             <button
               className="withdraw-container-page-continue-btn"
               onClick={submitWithdraw}
               disabled={loading}
             >
-              {loading ? "Processing withdrawal..." : "Withdraw"}
+              {loading ? "Processing withdrawal..." : "Confirm Withdrawal"}
             </button>
           </>
         ) : (
           <div className="withdraw-container-page-processing">
             <div className="spinner" />
-            <h3>Withdrawal UnSuccessful!</h3>
+            <h3>Withdrawal Failed</h3>
+            <p>Please try again later.</p>
             <button onClick={() => navigate("/dashboard")}>
               Back to Dashboard
             </button>
