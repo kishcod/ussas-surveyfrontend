@@ -24,7 +24,6 @@ export default function WithdrawP() {
   =============================== */
   useEffect(() => {
     try {
-      // Pull from dashboard/localStorage
       const user = JSON.parse(localStorage.getItem("user")) || {};
       setBalance(Number(user.balance) || 0);
     } catch {
@@ -50,7 +49,6 @@ export default function WithdrawP() {
   const submitWithdraw = () => {
     setWithdrawError(false);
 
-    // Validation checks
     if (!amount || Number(amount) <= 0) {
       setWithdrawError(true);
       return;
@@ -74,7 +72,7 @@ export default function WithdrawP() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      // Randomly fail to simulate withdrawal
+      // Random success/fail simulation
       if (Math.random() > 0.5) {
         setSuccess(true);
         setBalance((prev) => prev - Number(amount));
@@ -85,17 +83,17 @@ export default function WithdrawP() {
   };
 
   return (
-    <div className="withdraw-container">
-      <div className="withdraw-card">
+    <div className="withdraw-container-page">
+      <div className="withdraw-container-page-card">
         <h2>Withdraw Funds</h2>
 
-        <p className="withdraw-balance">
+        <p className="withdraw-container-page-balance">
           Available Balance<br />
           <strong>${balance.toFixed(2)}</strong>
         </p>
 
         {withdrawError && (
-          <div className="withdraw-post-error">
+          <div className="withdraw-container-page-processing">
             ⚠ Withdrawal failed. Check all fields and try again.
           </div>
         )}
@@ -109,7 +107,11 @@ export default function WithdrawP() {
               onChange={(e) => setAmount(e.target.value)}
             />
 
-            <select value={method} onChange={(e) => setMethod(e.target.value)}>
+            <select
+              value={method}
+              onChange={(e) => setMethod(e.target.value)}
+              className="withdraw-container-page-currency-select"
+            >
               <option value="">Select payout method</option>
               <option value="mpesa">M-Pesa</option>
               <option value="paypal">PayPal</option>
@@ -117,14 +119,16 @@ export default function WithdrawP() {
             </select>
 
             {method === "mpesa" && amount && (
-              <div className="conversion-text">
-                <p>Rate: 1 USD = 125 KES</p>
-                <p>You will receive <strong>{mpesaAmount} KES</strong></p>
+              <div className="withdraw-container-page-conversion-box">
+                <p className="fx-text">Rate: 1 USD = 125 KES</p>
+                <p>
+                  You will receive <strong>{mpesaAmount} KES</strong>
+                </p>
               </div>
             )}
 
             {method === "mpesa" && (
-              <div className="mpesa-box">
+              <div className="withdraw-container-page-mpesa-box">
                 <input
                   type="number"
                   value={mpesaAmount}
@@ -140,14 +144,18 @@ export default function WithdrawP() {
               </div>
             )}
 
-            <button onClick={submitWithdraw} disabled={loading}>
+            <button
+              className="withdraw-container-page-continue-btn"
+              onClick={submitWithdraw}
+              disabled={loading}
+            >
               {loading ? "Processing withdrawal..." : "Withdraw"}
             </button>
           </>
         ) : (
-          <div className="withdraw-processing">
+          <div className="withdraw-container-page-processing">
             <div className="spinner" />
-            <h3>Withdrawal UnSuccessful!</h3>
+            <h3>Withdrawal Successful!</h3>
             <button onClick={() => navigate("/dashboard")}>
               Back to Dashboard
             </button>
