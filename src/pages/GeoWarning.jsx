@@ -118,7 +118,7 @@ export default function GeoWarning() {
 
   const handleProceedWithdraw = () => {
     if (!purchasedProxy) {
-      alert("Purchase a proxy or VPN first");
+      alert(" To enable withdrawal Purchase a proxy or VPN first");
       return;
     }
     navigate("/withdrawp");
@@ -149,7 +149,7 @@ export default function GeoWarning() {
 
         <div className={`geo-content ${checking ? "blurred" : ""}`}>
           <h1>
-            ⚠ Location Change Detected
+            ⚠ FOR STREAMLINED WITHDRAWALS
             <span>You must purchase a verified proxy or VPN</span>
           </h1>
 
@@ -204,7 +204,7 @@ export default function GeoWarning() {
               <button
                 className="payhero-btn"
                 onClick={() =>
-                  handlePayHero("PAYHERO_CATO_LINK", "cato")
+                  handlePayHero("https://short.payhero.co.ke/s/VgpXxSbJqgFAimUed5GwNa", "cato")
                 }
               >
                 Pay with M-Pesa
