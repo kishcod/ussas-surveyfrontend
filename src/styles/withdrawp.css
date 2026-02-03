@@ -1,118 +1,112 @@
+/* Withdraw page container */
 .withdraw-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background: #f5f7fa;
-  padding: 20px;
+  padding: 2rem;
+  min-height: 80vh;
+  background: #f5f5f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Withdraw card */
 .withdraw-card {
   background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  padding: 32px;
-  width: 360px;
-  text-align: center;
-  position: relative;
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
+/* Card heading */
 .withdraw-card h2 {
-  margin-bottom: 16px;
-  color: #222;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
-.withdraw-balance {
-  margin-bottom: 24px;
-  font-size: 16px;
-  color: #555;
+/* Balance display */
+.withdraw-card .withdraw-balance {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
 }
 
-.withdraw-balance strong {
-  font-size: 20px;
-  color: #000;
-}
-
-input[type="number"],
-input[type="tel"],
-select {
+/* Input fields */
+.withdraw-card input,
+.withdraw-card select {
   width: 100%;
-  padding: 12px 16px;
-  margin-bottom: 16px;
-  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  border-radius: 0.5rem;
   border: 1px solid #ccc;
-  font-size: 14px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
-input:focus,
-select:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+/* MPesa box */
+.withdraw-card .mpesa-box {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-.mpesa-box input {
-  margin-bottom: 12px;
+.withdraw-card .mpesa-box input {
+  flex: 1;
 }
 
-button {
-  width: 100%;
-  padding: 12px 0;
-  background: #3b82f6;
-  color: white;
-  font-size: 16px;
-  font-weight: 500;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-button:hover:not(:disabled) {
-  background: #2563eb;
-}
-
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.conversion-text {
+/* Conversion text */
+.withdraw-card .conversion-text {
   background: #f0f4ff;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 12px;
-  font-size: 14px;
+  border-left: 4px solid #4a90e2;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
   color: #333;
 }
 
-.withdraw-processing {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Submit button */
+.withdraw-card button {
+  padding: 0.9rem 1.2rem;
+  border: none;
+  border-radius: 0.6rem;
+  background: #4a90e2;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.spinner {
-  border: 4px solid #eee;
-  border-top: 4px solid #3b82f6;
+.withdraw-card button:hover:not(:disabled) {
+  background: #357abd;
+}
+
+/* Disabled button */
+.withdraw-card button:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+
+/* Processing state */
+.withdraw-processing {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.withdraw-processing .spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ddd;
+  border-top: 4px solid #4a90e2;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  margin: 0 auto 1rem;
   animation: spin 1s linear infinite;
-  margin-bottom: 16px;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.withdraw-post-error {
-  background: #fee2e2;
-  color: #b91c1c;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  font-weight: 500;
+  to { transform: rotate(360deg); }
 }
 
