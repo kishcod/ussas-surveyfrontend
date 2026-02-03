@@ -131,7 +131,7 @@ export default function GeoWarning() {
         ⬇ Download file
       </button>
     ) : (
-      <span className="download-link locked">🔒 Download after payment</span>
+      <span className="download-link locked"> Download after payment</span>
     );
 
   return (
