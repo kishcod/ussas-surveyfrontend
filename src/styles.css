@@ -733,6 +733,153 @@ body {
   transform: translateY(-1px);
   box-shadow: 0 8px 24px rgba(34,197,94,0.45);
 }
+@media (max-width: 480px) {
+  .stats,
+  .how {
+    flex-direction: column;
+  }
+}
+/* ================================
+   BUTTON VARIANTS (JSX)
+================================ */
+.btn {
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn.ghost {
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+.btn.ghost:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+}
+
+.btn.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(34,197,94,0.45);
+}
+/* ================================
+   HOW IT WORKS (NEW JSX)
+================================ */
+.how {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.step {
+  flex: 1;
+  padding: 10px;
+  font-size: 12px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 10px;
+  color: #e5e7eb;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+/* ================================
+   FADE + SLIDE ANIMATIONS
+================================ */
+.fade-in {
+  animation: fadeInUp 0.9s ease both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* ================================
+   TRUST STATS
+================================ */
+.stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 20px 0;
+}
+
+.stats div {
+  flex: 1;
+  background: rgba(0,0,0,0.35);
+  padding: 14px;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.stats h2 {
+  font-size: 22px;
+  font-weight: 900;
+  color: #22c55e;
+  margin-bottom: 4px;
+}
+
+.stats p {
+  font-size: 12px;
+  color: #cbd5f5;
+}
+/* ================================
+   TRUST STATS
+================================ */
+.stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 20px 0;
+}
+
+.stats div {
+  flex: 1;
+  background: rgba(0,0,0,0.35);
+  padding: 14px;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+.stats h2 {
+  font-size: 22px;
+  font-weight: 900;
+  color: #22c55e;
+  margin-bottom: 4px;
+}
+
+.stats p {
+  font-size: 12px;
+  color: #cbd5f5;
+}
+/* ================================
+   LIVE ACTIVITY TICKER
+================================ */
+.activity-ticker {
+  margin: 14px 0;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #86efac;
+  background: linear-gradient(
+    90deg,
+    rgba(34,197,94,0.15),
+    rgba(34,197,94,0.05)
+  );
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px rgba(34,197,94,0.25);
+  letter-spacing: 0.2px;
+}
 
 
 
