@@ -772,3 +772,27 @@ body {
   line-height: 1.4;
   margin-top: 4px;
 }
+.landing-btn.signup {
+  background: linear-gradient(135deg, #10b981, #059669); /* gradient */
+  color: white;
+  font-weight: 600;                 /* bolder text */
+  padding: 0.75rem 1.5rem;          /* comfortable padding */
+  border-radius: 0.5rem;            /* rounded corners */
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* subtle shadow */
+  transition: all 0.3s ease;        /* smooth hover effect */
+}
+
+/* Hover effect */
+.landing-btn.signup:hover {
+  background: linear-gradient(135deg, #059669, #10b981); /* reverse gradient */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);           /* deeper shadow */
+  transform: translateY(-2px);                           /* subtle lift */
+}
+
+/* Optional focus effect for accessibility */
+.landing-btn.signup:focus {
+  outline: 2px solid #34d399;
+  outline-offset: 2px;
+}
