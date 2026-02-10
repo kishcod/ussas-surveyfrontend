@@ -986,3 +986,24 @@ body {
   position: relative;
 }
 
+.landing-nav {
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.landing-card {
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+@media (max-width: 480px) {
+  .landing-card {
+    padding: 28px 20px;
+  }
+}
+.landing-footer {
+  margin-top: 32px;
+  padding: 24px 0 16px;
+  opacity: 0.85;
+}
