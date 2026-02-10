@@ -1234,7 +1234,7 @@ body {
 
 /* CTA Button */
 .cta-primary {
-  margin-top: 8px;
+  margin-top: 7px;
   padding: 14px;
   border-radius: 10px;
   font-size: 16px;
@@ -1252,8 +1252,8 @@ body {
 
 /* Footer */
 .landing-footer {
-  margin-top: 20px;
-  padding: 24px 0 16px;
+  margin-top: 15px;
+  padding: 20px 0 16px;
   text-align: center;
   width: 100%;
   max-width: 480px; /* matches card width */
