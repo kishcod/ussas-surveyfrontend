@@ -100,7 +100,6 @@ body {
 
 /* Overlay */
 .landing-overlay {
-  min-height: 100vh;
   background: rgba(0,0,0,0.6);
   display: flex;
   align-items: center;
@@ -979,6 +978,10 @@ body {
   overflow: visible;
 }
 .hero-card {
+  position: relative;
+}
+
+.landing-nav {
   position: relative;
 }
 
