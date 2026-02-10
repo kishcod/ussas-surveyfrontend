@@ -936,5 +936,11 @@ body {
   justify-content: space-between;
 }
 
+@media (max-width: 480px) {
+  .landing-overlay {
+    justify-content: flex-start; /* stop vertical centering */
+    padding-top: 96px;          /* space for nav */
+  }
+}
 
 
