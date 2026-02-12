@@ -1326,4 +1326,10 @@ body {
   margin-top: auto;
   padding-top: 32px;
 }
+.landing-footer {
+  padding: 10px 0 6px;
+  text-align: center;
+  font-size: 11px;
+  opacity: 0.75;
+}
 
