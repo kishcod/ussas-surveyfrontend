@@ -850,3 +850,14 @@ body {
   line-height: 1.4;
 }
 
+/* =========================
+   SURVEY FLOW FIX (CRITICAL)
+========================= */
+.surveys-grid {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+  height: auto !important;
+  overflow: visible !important;
+}
