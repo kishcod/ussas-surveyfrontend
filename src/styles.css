@@ -196,7 +196,7 @@ body {
 
 
 .landing-footer {
-  margin-top: 1.5rem;
+  margin-top: 1.3rem;
   display: flex;
   justify-content: center;
   gap: 2rem;
@@ -1258,7 +1258,7 @@ body {
   text-align: center;
   width: 100%;
   max-width: 480px; /* matches card width */
-  opacity: 0.85;
+  opacity: 0.75;
 }
 
 .footer-icons {
