@@ -1253,8 +1253,8 @@ body {
 
 /* Footer */
 .landing-footer {
-  margin-top: 15px;
-  padding: 20px 0 16px;
+  margin-top: 10px;
+  padding: 10px 0 13px;
   text-align: center;
   width: 100%;
   max-width: 480px; /* matches card width */
@@ -1292,31 +1292,33 @@ body {
   line-height: 1.2;
 }
 
-.landing-overlay {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  padding-bottom: 80px; /* 👈 KEY FIX */
-}
-.landing-card {
-  max-height: calc(100vh - 220px); /* prevents footer collision */
-  overflow-y: auto;
-}
+/* =====================================================
+   MOBILE RESPONSIVE FIXES
+===================================================== */
 @media (max-width: 480px) {
   .landing-overlay {
-    justify-content: flex-start;
-    padding-top: 40px;
-    padding-bottom: 120px; /* more space on phones */
+    justify-content: flex-start; /* stop vertical centering */
+    padding-top: 96px; /* space for navbar */
+    padding-bottom: 40px;
+  }
+
+  .stats,
+  .how {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-right {
+    gap: 8px;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    font-size: 13px;
   }
 
   .landing-card {
-    max-height: none;
-  }
-
-  .landing-footer {
-    margin-top: 40px;
+    padding: 27px 18px;
+    margin-bottom: 32px; /* maintain spacing under card */
   }
 }
