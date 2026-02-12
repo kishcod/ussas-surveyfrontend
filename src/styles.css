@@ -1322,3 +1322,8 @@ body {
     margin-bottom: 32px; /* maintain spacing under card */
   }
 }
+.landing-footer {
+  margin-top: auto;
+  padding-top: 32px;
+}
+
