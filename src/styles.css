@@ -1292,36 +1292,6 @@ body {
   line-height: 1.2;
 }
 
-/* =====================================================
-   MOBILE RESPONSIVE FIXES
-===================================================== */
-@media (max-width: 480px) {
-  .landing-overlay {
-    justify-content: flex-start; /* stop vertical centering */
-    padding-top: 96px; /* space for navbar */
-    padding-bottom: 40px;
-  }
-
-  .stats,
-  .how {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .nav-right {
-    gap: 8px;
-  }
-
-  .btn {
-    padding: 8px 14px;
-    font-size: 13px;
-  }
-
-  .landing-card {
-    padding: 28px 20px;
-    margin-bottom: 32px; /* maintain spacing under card */
-  }
-
 .landing-overlay {
   flex: 1;
   display: flex;
