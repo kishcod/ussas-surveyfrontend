@@ -25,10 +25,10 @@ html, body {
 }
 
 /* =====================================================
-   COMMON COMPONENTS
+   COMMON
 ===================================================== */
 .card {
-  background: #ffffff;
+  background: #fff;
   border-radius: 14px;
   padding: 24px;
   box-shadow: var(--shadow);
@@ -41,7 +41,6 @@ textarea {
   border-radius: 8px;
   border: 1px solid #ccc;
   font-size: 14px;
-  color: #111;
 }
 
 button {
@@ -49,36 +48,6 @@ button {
   cursor: pointer;
   font-weight: 700;
   transition: all 0.25s ease;
-}
-
-/* =====================================================
-   BUTTONS
-===================================================== */
-.btn,
-.button {
-  padding: 12px 18px;
-  border-radius: 999px;
-  background: var(--primary);
-  color: #ffffff;
-}
-
-.btn:hover,
-.button:hover {
-  background: #003ec2;
-}
-
-.btn.primary {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-}
-
-.btn.primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(34,197,94,0.45);
-}
-
-.btn.ghost {
-  background: rgba(255,255,255,0.15);
-  color: white;
 }
 
 /* =====================================================
@@ -91,9 +60,11 @@ button {
   color: white;
 }
 
+/* Top Nav */
 .landing-nav {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   padding: 14px 16px;
   display: flex;
@@ -101,6 +72,7 @@ button {
   align-items: center;
   background: rgba(0,0,0,0.35);
   backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
   z-index: 50;
 }
 
@@ -112,6 +84,7 @@ button {
 
 .nav-link {
   font-weight: 700;
+  cursor: pointer;
   color: white;
 }
 
@@ -122,20 +95,24 @@ button {
 /* Overlay */
 .landing-overlay {
   min-height: 100vh;
-  padding: 120px 20px 40px;
+  padding: 120px 24px 48px;
   background: rgba(0,0,0,0.6);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+/* Hero Card */
 .landing-card {
   background: var(--card-dark);
   padding: 28px 22px;
   border-radius: 16px;
+  text-align: center;
   max-width: 520px;
   width: 100%;
-  text-align: center;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 20px 50px rgba(0,0,0,0.45);
 }
 
@@ -146,19 +123,21 @@ button {
 
 .landing-subtitle {
   margin: 14px 0 24px;
-  font-size: 15px;
   color: #e5e5e5;
+  font-size: 15px;
 }
 
+/* Landing Buttons */
 .landing-buttons {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.landing-btn.signup {
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: white;
+.landing-btn {
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 700;
 }
 
 .landing-btn.login {
@@ -166,28 +145,72 @@ button {
   color: #111;
 }
 
+.landing-btn.signup {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.landing-btn.signup:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(16,185,129,0.45);
+}
+
 /* =====================================================
-   HOW / STATS
+   HOW IT WORKS
 ===================================================== */
 .how,
-.stats {
+.how-steps {
   display: flex;
   gap: 12px;
   margin-top: 18px;
 }
 
 .step,
-.stats div {
+.how-step {
   flex: 1;
   padding: 12px;
-  border-radius: 12px;
+  font-size: 13px;
   background: rgba(0,0,0,0.4);
+  border-radius: 10px;
   color: #e5e7eb;
+}
+
+.step-number {
+  width: 28px;
+  height: 28px;
+  background: var(--success);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+/* =====================================================
+   STATS / TRUST
+===================================================== */
+.stats {
+  display: flex;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.stats div {
+  flex: 1;
+  background: rgba(0,0,0,0.35);
+  padding: 14px;
+  border-radius: 12px;
 }
 
 .stats h2 {
   font-size: 22px;
+  font-weight: 900;
   color: #22c55e;
+}
+
+.stats p {
+  font-size: 12px;
+  color: #cbd5f5;
 }
 
 /* =====================================================
@@ -201,13 +224,22 @@ button {
 }
 
 .auth-card {
-  max-width: 380px;
+  background: white;
   width: 100%;
+  max-width: 380px;
   padding: 28px;
   border-radius: 14px;
-  background: white;
   box-shadow: var(--shadow);
   text-align: center;
+}
+
+.auth-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: white;
+  font-weight: 800;
 }
 
 /* =====================================================
@@ -215,14 +247,13 @@ button {
 ===================================================== */
 .dashboard-container {
   padding: 24px;
-  width: 100%;
 }
 
 .brand-bar {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .brand-title {
@@ -230,20 +261,19 @@ button {
   font-weight: 900;
 }
 
-/* Balance */
 .balance-glow {
   padding: 16px;
   font-size: 26px;
   font-weight: 900;
-  background: linear-gradient(135deg, #ffffff, #e6f0ff);
+  background: linear-gradient(135deg, #fff, #e6f0ff);
   border-radius: 18px;
   text-align: center;
   animation: glow 2s infinite;
 }
 
 .withdraw-btn {
-  width: 100%;
   margin-top: 14px;
+  width: 100%;
   padding: 14px;
   border-radius: 999px;
   background: linear-gradient(135deg, #22c55e, #16a34a);
@@ -252,7 +282,7 @@ button {
 }
 
 /* =====================================================
-   SURVEYS (FIXED – NO OVERLAP)
+   SURVEYS (NO OVERLAP)
 ===================================================== */
 .surveys-grid {
   margin-top: 24px;
@@ -262,25 +292,13 @@ button {
 }
 
 .survey-card {
-  background: #ffffff;
+  background: #fff;
   padding: 16px;
   border-radius: 14px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-.survey-card h3 {
-  font-size: 16px;
-  font-weight: 800;
-  color: #111827;
-}
-
-.survey-card p {
-  font-size: 13px;
-  color: #6b7280;
 }
 
 .survey-meta {
@@ -320,25 +338,13 @@ button {
 }
 
 .modal-card {
-  max-width: 420px;
-  width: 90%;
+  background: #000;
   padding: 24px;
   border-radius: 14px;
-  background: #000;
-  color: #e5e7eb;
+  max-width: 420px;
+  width: 90%;
   text-align: center;
-}
-
-/* =====================================================
-   PAGES (ABOUT / CONTACT)
-===================================================== */
-.page-container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 20px;
-  background: linear-gradient(145deg, rgba(15,40,70,0.9), rgba(10,25,45,0.9));
-  border-radius: 16px;
-  color: #ffffff;
+  color: #e5e7eb;
 }
 
 /* =====================================================
@@ -347,8 +353,8 @@ button {
 .footer-container {
   background: #1f2937;
   color: #facc15;
-  text-align: center;
   padding: 24px 16px;
+  text-align: center;
 }
 
 .footer-icons {
@@ -388,6 +394,7 @@ button {
   }
 
   .how,
+  .how-steps,
   .stats {
     flex-direction: column;
   }
