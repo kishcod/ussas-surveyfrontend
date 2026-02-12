@@ -807,3 +807,30 @@ body {
     width: auto;
   }
 }
+/* Surveys */
+.surveys-grid {
+  margin-top: 20px;
+}
+
+.survey-card {
+  background: white;
+  padding: 14px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  margin-bottom: 12px;
+}
+
+.survey-card h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.survey-card button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: var(--primary);
+  color: white;
+}
