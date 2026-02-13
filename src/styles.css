@@ -1367,4 +1367,14 @@ body {
     radial-gradient(circle at top left, rgba(34,197,94,0.15), transparent 40%),
     rgba(0,0,0,0.7);
 }
+.landing-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-overlay {
+  flex: 1;   /* pushes footer down */
+}
+
 
