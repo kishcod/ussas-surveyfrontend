@@ -516,4 +516,11 @@ body {
     padding: 28px 20px;
   }
 }
+.dashboard-container {
+  width: 100%;
+  max-width: 1200px;   /* controls desktop width */
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
 
