@@ -155,3 +155,17 @@
     transform: rotate(360deg);
   }
 }
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-eye {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
+}
