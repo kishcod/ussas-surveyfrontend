@@ -10,14 +10,15 @@ export default function Signup() {
     username: "",
     password: "",
     referral_code: "",
-    isUSA: "", // US check
+    isUSA: "",
   });
 
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // 👁️ toggle
   const nav = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // prevent page reload
+    e.preventDefault();
 
     if (form.isUSA !== "yes") {
       alert("Only USA users allowed.");
@@ -25,7 +26,7 @@ export default function Signup() {
     }
 
     try {
-      setLoading(true); // show spinner
+      setLoading(true);
       const res = await registerUser(form);
 
       if (res.error) {
@@ -39,7 +40,7 @@ export default function Signup() {
       console.error(err);
       alert("Signup failed. Check console for details.");
     } finally {
-      setLoading(false); // hide spinner
+      setLoading(false);
     }
   };
 
@@ -49,6 +50,7 @@ export default function Signup() {
         <h2 className="card-title">Sign Up</h2>
 
         <form className="form" onSubmit={handleSubmit}>
+
           <input
             className="input"
             placeholder="Full Name"
@@ -56,6 +58,7 @@ export default function Signup() {
             onChange={(e) => setForm({ ...form, name: e.target.value })}
             required
           />
+
           <input
             className="input"
             placeholder="Email"
@@ -63,6 +66,7 @@ export default function Signup() {
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             required
           />
+
           <input
             className="input"
             placeholder="Username"
@@ -70,14 +74,28 @@ export default function Signup() {
             onChange={(e) => setForm({ ...form, username: e.target.value })}
             required
           />
-          <input
-            className="input"
-            placeholder="Password"
-            type="password"
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            required
-          />
+
+          {/* 🔐 PASSWORD WITH EYE */}
+          <div className="password-wrapper">
+            <input
+              className="input"
+              placeholder="Password"
+              type={showPassword ? "text" : "password"}
+              value={form.password}
+              onChange={(e) =>
+                setForm({ ...form, password: e.target.value })
+              }
+              required
+            />
+
+            <span
+              className="password-eye"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </span>
+          </div>
+
           <input
             className="input"
             placeholder="Referral Code (optional)"
@@ -87,7 +105,7 @@ export default function Signup() {
             }
           />
 
-          {/* US Check */}
+          {/* 🇺🇸 US CHECK */}
           <div className="us-check">
             <label>Are you from the United States?</label>
             <div className="radio-group">
@@ -97,17 +115,22 @@ export default function Signup() {
                   name="isUSA"
                   value="yes"
                   checked={form.isUSA === "yes"}
-                  onChange={(e) => setForm({ ...form, isUSA: e.target.value })}
+                  onChange={(e) =>
+                    setForm({ ...form, isUSA: e.target.value })
+                  }
                 />
                 Yes
               </label>
+
               <label>
                 <input
                   type="radio"
                   name="isUSA"
                   value="no"
                   checked={form.isUSA === "no"}
-                  onChange={(e) => setForm({ ...form, isUSA: e.target.value })}
+                  onChange={(e) =>
+                    setForm({ ...form, isUSA: e.target.value })
+                  }
                 />
                 No
               </label>
