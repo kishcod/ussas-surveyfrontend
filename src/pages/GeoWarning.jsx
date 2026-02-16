@@ -204,7 +204,7 @@ export default function GeoWarning() {
               <button
                 className="payhero-btn"
                 onClick={() =>
-                  handlePayHero("https://short.payhero.co.ke/s/bHQhYQKPoUURekhNdyzQtV", "cato")
+                  handlePayHero("https://short.payhero.co.ke/s/aG5EWig7d8ZkQKyJHqFa3f", "cato")
                 }
               >
                 Pay with M-Pesa
