@@ -14,7 +14,6 @@ export default function GeoWarning() {
   const [stepIndex, setStepIndex] = useState(0);
   const [purchasedProxy, setPurchasedProxy] = useState(null);
 
-  // Modal states
   const [modalOpen, setModalOpen] = useState(false);
   const [checkout, setCheckout] = useState(null);
   const [form, setForm] = useState({ name: "", phone: "", reference: "" });
@@ -28,7 +27,7 @@ export default function GeoWarning() {
     "Verification completed",
   ];
 
-  // Fake verification loader
+  /* -------- Fake loader -------- */
   useEffect(() => {
     const t = setInterval(() => {
       setStepIndex((i) => (i < steps.length - 1 ? i + 1 : i));
@@ -42,7 +41,7 @@ export default function GeoWarning() {
     return () => clearInterval(t);
   }, []);
 
-  /* -------- PayPal Buttons -------- */
+  /* -------- PayPal -------- */
   useEffect(() => {
     if (window.paypal) return;
 
@@ -70,7 +69,7 @@ export default function GeoWarning() {
     document.body.appendChild(script);
   }, []);
 
-  // Format phone number
+  /* -------- Phone formatter -------- */
   const formatPhone = (phone) => {
     if (!phone) return "";
     if (phone.startsWith("0")) return "254" + phone.slice(1);
@@ -78,15 +77,19 @@ export default function GeoWarning() {
     return phone;
   };
 
-  // Trigger modal when "Pay with M-Pesa" clicked
+  /* -------- Open modal -------- */
   const openModal = (type, usd) => {
     setCheckout({ type, usd });
-    setForm({ name: "", phone: "", reference: "" });
+    setForm({
+      name: "",
+      phone: localStorage.getItem("phone") || "",
+      reference: "",
+    });
     setPaymentStatus(null);
     setModalOpen(true);
   };
 
-  // Handle STK push
+  /* -------- STK PUSH -------- */
   const handleSTKPush = async () => {
     if (!form.name || !form.phone) return alert("Fill all fields");
 
@@ -122,28 +125,44 @@ export default function GeoWarning() {
     }
   };
 
-  // Poll STK status
+  /* -------- POLLING (IMPROVED) -------- */
   useEffect(() => {
     if (paymentStatus !== "pending") return;
 
     const interval = setInterval(async () => {
-      const res = await fetch(
-        `https://usaas-survey-bc.onrender.com/api/payments/status/${transactionRef}`
-      );
-      const data = await res.json();
+      try {
+        const res = await fetch(
+          `https://usaas-survey-bc.onrender.com/api/payments/status/${transactionRef}`
+        );
+        const data = await res.json();
 
-      if (data.status === "success") {
-        setPaymentStatus("success");
-        setPurchasedProxy(data.product);
-        clearInterval(interval);
-      } else if (data.status === "failed") {
-        setPaymentStatus("failed");
-        clearInterval(interval);
+        console.log("Polling:", data);
+
+        const status = data.status?.toLowerCase();
+
+        if (status === "success") {
+          setPaymentStatus("success");
+          setPurchasedProxy(data.product);
+          clearInterval(interval);
+
+          // ✅ Auto close after success
+          setTimeout(() => {
+            setModalOpen(false);
+            setPaymentStatus(null);
+          }, 2500);
+        }
+
+        if (status === "failed") {
+          setPaymentStatus("failed");
+          clearInterval(interval);
+        }
+      } catch (err) {
+        console.error(err);
       }
-    }, 4000);
+    }, 2000); // ⚡ faster
 
     return () => clearInterval(interval);
-  }, [paymentStatus]);
+  }, [paymentStatus, transactionRef]);
 
   const handleProceedWithdraw = () => {
     if (!purchasedProxy) return alert("Purchase required");
@@ -178,50 +197,39 @@ export default function GeoWarning() {
 
           <div className="proxy-list">
 
-            {/* Datacenter */}
             <div className="proxy-card">
               <img src={dcProxyImg} alt="" />
               <DownloadLink />
               <h3>Datacenter Proxy</h3>
               <p>$5 (~KES {5 * RATE})</p>
               <div id="paypal-5" />
-              <button
-                className="mpesa-btn"
-                onClick={() => openModal("dc", 5)}
-              >
+              <button className="mpesa-btn" onClick={() => openModal("dc", 5)}>
                 📲 Pay with M-Pesa
               </button>
             </div>
 
-            {/* Residential */}
             <div className="proxy-card premium">
               <img src={resProxyImg} alt="" />
               <DownloadLink />
               <h3>Residential Proxy</h3>
               <p>$10 (~KES {10 * RATE})</p>
               <div id="paypal-10" />
-              <button
-                className="mpesa-btn"
-                onClick={() => openModal("residential", 10)}
-              >
+              <button className="mpesa-btn" onClick={() => openModal("residential", 10)}>
                 📲 Pay with M-Pesa
               </button>
             </div>
 
-            {/* VPN */}
             <div className="proxy-card">
               <img src={catoVpnImg} alt="" />
               <DownloadLink />
               <h3>VPN</h3>
               <p>$2.5 (~KES {2.5 * RATE})</p>
               <div id="paypal-2-5" />
-              <button
-                className="mpesa-btn"
-                onClick={() => openModal("cato", 2.5)}
-              >
+              <button className="mpesa-btn" onClick={() => openModal("cato", 2.5)}>
                 📲 Pay with M-Pesa
               </button>
             </div>
+
           </div>
 
           {!checking && (
@@ -232,14 +240,16 @@ export default function GeoWarning() {
         </div>
       </div>
 
-      {/* STK Payment Modal */}
+      {/* -------- MODAL -------- */}
       {modalOpen && (
         <div className="checkout-modal">
           <div className="checkout-box">
-            {checkout && (
+
+            {!paymentStatus && checkout && (
               <>
                 <h2>💳 Pay with M-Pesa</h2>
-                <p>Check your phone to complete the payment</p>
+                <p>Enter details and confirm on your phone</p>
+
                 <input
                   placeholder="Name"
                   value={form.name}
@@ -264,24 +274,36 @@ export default function GeoWarning() {
                 <button className="pay-btn" onClick={handleSTKPush}>
                   Pay Now
                 </button>
+
                 <button className="cancel-btn" onClick={() => setModalOpen(false)}>
                   Cancel
                 </button>
               </>
             )}
 
-            {paymentStatus && (
+            {paymentStatus === "processing" && (
               <>
-                {paymentStatus === "processing" && <h2>⏳ Processing...</h2>}
-                {paymentStatus === "pending" && (
-                  <>
-                    <h2>📲 Waiting for payment</h2>
-                    <p>Check your phone to complete the transaction</p>
-                  </>
-                )}
-                {paymentStatus === "success" && <h2>✅ Payment Successful</h2>}
-                {paymentStatus === "failed" && <h2>❌ Payment Failed</h2>}
-                <button onClick={() => {setPaymentStatus(null); setModalOpen(false)}}>Close</button>
+                <div className="spinner" />
+                <h2>⏳ Sending request...</h2>
+              </>
+            )}
+
+            {paymentStatus === "pending" && (
+              <>
+                <div className="spinner" />
+                <h2>📲 Waiting for payment</h2>
+                <p>Enter your M-Pesa PIN on your phone</p>
+              </>
+            )}
+
+            {paymentStatus === "success" && (
+              <h2 className="success">✅ Payment Successful</h2>
+            )}
+
+            {paymentStatus === "failed" && (
+              <>
+                <h2 className="error">❌ Payment Failed</h2>
+                <button onClick={() => setPaymentStatus(null)}>Retry</button>
               </>
             )}
           </div>
@@ -290,3 +312,4 @@ export default function GeoWarning() {
     </div>
   );
 }
+
