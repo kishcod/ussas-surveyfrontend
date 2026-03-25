@@ -5,49 +5,49 @@ import "../styles/GeoWarning.css";
 import dcProxyImg from "../assets/us-proxy.png";
 import resProxyImg from "../assets/residential-proxy.png";
 import catoVpnImg from "../assets/cato-vpn.png";
-import axios from "axios";
 
 export default function GeoWarning() {
   const navigate = useNavigate();
 
-  const steps = [
-    "Obtaining IP address…",
-    "Checking geolocation…",
-    "Verifying region eligibility…",
-    "Cross-checking survey access…",
-    "Verification completed",
-  ];
+  const RATE = 125;
 
   const [checking, setChecking] = useState(true);
   const [stepIndex, setStepIndex] = useState(0);
   const [purchasedProxy, setPurchasedProxy] = useState(null);
 
-  // Payment modal
-  const [showModal, setShowModal] = useState(false);
-  const [modalState, setModalState] = useState("idle"); // idle | waiting | success | error
-  const [modalMessage, setModalMessage] = useState("");
-  const [convertedAmount, setConvertedAmount] = useState(0);
+  const [checkout, setCheckout] = useState(null);
 
-  const proxyPrices = { dc: 5, residential: 10, cato: 2.5 };
-  const proxyKES = { dc: 500, residential: 1000, cato: 320 };
+  const [form, setForm] = useState({
+    name: "",
+    phone: localStorage.getItem("phone") || "", // ✅ AUTO LOAD
+    reference: "",
+  });
 
+  const [paymentStatus, setPaymentStatus] = useState(null);
+  const [transactionRef, setTransactionRef] = useState(null);
+
+  const steps = [
+    "Obtaining IP address…",
+    "Checking geolocation…",
+    "Verifying eligibility…",
+    "Verification completed",
+  ];
+
+  /* -------- Fake verification -------- */
   useEffect(() => {
-    const stepTimer = setInterval(() => {
+    const t = setInterval(() => {
       setStepIndex((i) => (i < steps.length - 1 ? i + 1 : i));
-    }, 1800);
+    }, 1500);
 
-    const finishTimer = setTimeout(() => {
+    setTimeout(() => {
       setChecking(false);
-      clearInterval(stepTimer);
-    }, 9000);
+      clearInterval(t);
+    }, 7000);
 
-    return () => {
-      clearInterval(stepTimer);
-      clearTimeout(finishTimer);
-    };
+    return () => clearInterval(t);
   }, []);
 
-  /* ---------------- PayPal ---------------- */
+  /* -------- PayPal -------- */
   useEffect(() => {
     if (window.paypal) return;
 
@@ -57,147 +57,225 @@ export default function GeoWarning() {
     script.async = true;
 
     script.onload = () => {
-      Object.entries(proxyPrices).forEach(([type, amount]) => {
-        const elId = type === "cato" ? "paypal-2-5" : `paypal-${amount}`;
+      ["5", "10", "2-5"].forEach((id, i) => {
+        const values = ["5.00", "10.00", "2.50"];
+        const types = ["dc", "residential", "cato"];
+
         window.paypal.Buttons({
           createOrder: (_, actions) =>
             actions.order.create({
-              purchase_units: [{ amount: { value: amount.toString() } }],
+              purchase_units: [{ amount: { value: values[i] } }],
             }),
           onApprove: (_, actions) =>
             actions.order.capture().then(() => {
-              alert(`${type.toUpperCase()} Proxy activated`);
-              setPurchasedProxy(type);
+              setPurchasedProxy(types[i]);
             }),
-        }).render(`#${elId}`);
+        }).render(`#paypal-${id}`);
       });
     };
+
     document.body.appendChild(script);
   }, []);
 
-  /* ---------------- PayHero STK ---------------- */
-  const handleSTKPayment = async (type) => {
+  /* -------- Format phone -------- */
+  const formatPhone = (phone) => {
+    if (phone.startsWith("0")) return "254" + phone.slice(1);
+    if (phone.startsWith("7")) return "254" + phone;
+    return phone;
+  };
+
+  /* -------- STK PUSH -------- */
+  const handleSTKPush = async () => {
+    if (!form.name || !form.phone) return alert("Fill all fields");
+
+    const formattedPhone = formatPhone(form.phone);
+
+    // ✅ Save for next time (auto-fill future)
+    localStorage.setItem("phone", form.phone);
+
     try {
-      setConvertedAmount(proxyKES[type]);
-      setModalState("waiting");
-      setModalMessage("Waiting for STK payment…");
-      setShowModal(true);
-
-      const phone = prompt("Enter your phone number (07XXXXXXXX):");
-      if (!phone) throw new Error("Phone number required");
-
-      const txRef = `proxy_${type}_${Date.now()}`;
-
-      const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND}/api/payhero/create`,
-        { product: type, user_id: 1, phone } // replace user_id dynamically
+      const res = await fetch(
+        "https://usaas-survey-bc.onrender.com/api/payments/stk-push",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            phone: formattedPhone,
+            product: checkout.type,
+            reference: form.reference || `REF_${Date.now()}`,
+          }),
+        }
       );
 
-      setModalState("success");
-      setModalMessage("Payment Successful ✅");
-      setPurchasedProxy(type);
+      const data = await res.json();
 
-      setTimeout(() => setShowModal(false), 3000); // auto-close modal after 3s
-    } catch (err) {
-      console.error("STK ERROR:", err.response?.data || err.message);
-      setModalState("error");
-      setModalMessage("Payment failed ❌");
+      if (data.success) {
+        setTransactionRef(data.reference);
+        setPaymentStatus("pending");
+        setCheckout(null);
+      } else {
+        alert("Payment failed");
+      }
+    } catch {
+      alert("Network error");
     }
   };
 
-  const handleDownload = async () => {
-    const token = localStorage.getItem("token");
-    if (!purchasedProxy) return;
+  /* -------- Poll payment -------- */
+  useEffect(() => {
+    if (paymentStatus !== "pending") return;
 
-    const res = await fetch("/api/download/token", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ product: purchasedProxy }),
-    });
-    const data = await res.json();
-    if (data.token) window.location.href = `/api/download?token=${data.token}`;
-  };
+    const i = setInterval(async () => {
+      const res = await fetch(
+        `https://usaas-survey-bc.onrender.com/api/payments/status/${transactionRef}`
+      );
+      const data = await res.json();
+
+      if (data.status === "success") {
+        setPaymentStatus("success");
+        setPurchasedProxy(data.product);
+        clearInterval(i);
+      }
+
+      if (data.status === "failed") {
+        setPaymentStatus("failed");
+        clearInterval(i);
+      }
+    }, 4000);
+
+    return () => clearInterval(i);
+  }, [paymentStatus]);
 
   const handleProceedWithdraw = () => {
-    if (!purchasedProxy) {
-      alert("Purchase a proxy first to proceed");
-      return;
-    }
+    if (!purchasedProxy) return alert("Purchase required");
     navigate("/withdrawp");
   };
 
   const DownloadLink = () =>
     purchasedProxy ? (
-      <button className="download-link active" onClick={handleDownload}>
-        ⬇ Download file
-      </button>
+      <button className="download-link active">⬇ Download</button>
     ) : (
-      <span className="download-link locked"> Download after payment</span>
+      <span className="download-link locked">Locked</span>
     );
+
+  const calcKES = checkout ? Math.round(checkout.usd * RATE) : 0;
 
   return (
     <div className="geo-page">
       <div className="geo-card">
+
+        {/* Loader */}
         {checking && (
           <div className="checking-overlay">
             <div className="checking-box">
               <div className="spinner" />
               <p>{steps[stepIndex]}</p>
-              <span>Please do not refresh</span>
             </div>
           </div>
         )}
 
         <div className={`geo-content ${checking ? "blurred" : ""}`}>
-          <h1>
-            ⚠ FOR STREAMLINED WITHDRAWALS!
-            <span> You must purchase a verified proxy or VPN</span>
-          </h1>
+          <h1>⚠ Purchase Proxy to Withdraw</h1>
 
           <div className="proxy-list">
-            {[
-              { type: "dc", img: dcProxyImg, name: "US Datacenter Proxy" },
-              { type: "residential", img: resProxyImg, name: "US Residential Proxy" },
-              { type: "cato", img: catoVpnImg, name: "Cato VPN" },
-            ].map((p) => (
-              <div key={p.type} className={`proxy-card ${p.type}`}>
-                <img src={p.img} alt={p.name} />
-                <DownloadLink />
-                <h3>{p.name}</h3>
-                <div className="proxy-price">${proxyPrices[p.type]}</div>
-                <div id={p.type === "cato" ? "paypal-2-5" : `paypal-${proxyPrices[p.type]}`} />
-                <button className="stk-btn" onClick={() => handleSTKPayment(p.type)}>
-                  Pay with M-Pesa (STK)
-                </button>
-              </div>
-            ))}
+
+            {/* DC */}
+            <div className="proxy-card">
+              <img src={dcProxyImg} alt="" />
+              <DownloadLink />
+              <h3>Datacenter Proxy</h3>
+              <p>$5 (~KES {5 * RATE})</p>
+              <div id="paypal-5" />
+              <button className="mpesa-btn" onClick={() => setCheckout({ type: "dc", usd: 5 })}>
+                📲 Pay with M-Pesa
+              </button>
+            </div>
+
+            {/* Residential */}
+            <div className="proxy-card premium">
+              <img src={resProxyImg} alt="" />
+              <DownloadLink />
+              <h3>Residential Proxy</h3>
+              <p>$10 (~KES {10 * RATE})</p>
+              <div id="paypal-10" />
+              <button className="mpesa-btn" onClick={() => setCheckout({ type: "residential", usd: 10 })}>
+                📲 Pay with M-Pesa
+              </button>
+            </div>
+
+            {/* VPN */}
+            <div className="proxy-card">
+              <img src={catoVpnImg} alt="" />
+              <DownloadLink />
+              <h3>VPN</h3>
+              <p>$2.5 (~KES {2.5 * RATE})</p>
+              <div id="paypal-2-5" />
+              <button className="mpesa-btn" onClick={() => setCheckout({ type: "cato", usd: 2.5 })}>
+                📲 Pay with M-Pesa
+              </button>
+            </div>
+
           </div>
 
           {!checking && (
-            <button className="proceed-withdraw-btn" onClick={handleProceedWithdraw}>
-              Proceed & Withdraw
+            <button className="withdraw-btn" onClick={handleProceedWithdraw}>
+              Proceed Withdraw
             </button>
           )}
         </div>
-
-        {/* Payment Modal */}
-        {showModal && (
-          <div className="payment-modal-overlay">
-            <div className={`payment-modal ${modalState}`}>
-              {modalState === "waiting" && <div className="spinner" />}
-              {modalState === "success" && <div className="success-check">✔</div>}
-              {modalState === "error" && <div className="error-icon">✖</div>}
-
-              <h2>{modalMessage}</h2>
-              <p>Amount: <strong>{convertedAmount} KES</strong></p>
-              <button className="cancel-btn" onClick={() => setShowModal(false)}>Close</button>
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* CHECKOUT MODAL */}
+      {checkout && (
+        <div className="checkout-modal">
+          <div className="checkout-box">
+            <h2>Checkout</h2>
+
+            <input
+              placeholder="Name"
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+            />
+
+            <input
+              placeholder="07XXXXXXXX"
+              value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            />
+
+            <input
+              placeholder="Reference (optional)"
+              value={form.reference}
+              onChange={(e) => setForm({ ...form, reference: e.target.value })}
+            />
+
+            <div className="amount-box">
+              <h2>KES {calcKES}</h2>
+              <span>${checkout.usd} × {RATE}</span>
+            </div>
+
+            <button className="pay-btn" onClick={handleSTKPush}>
+              Pay Now
+            </button>
+
+            <button className="cancel-btn" onClick={() => setCheckout(null)}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* PAYMENT STATUS */}
+      {paymentStatus && (
+        <div className="payment-status">
+          <div className="status-box">
+            {paymentStatus === "pending" && <h2>📲 Waiting for payment...</h2>}
+            {paymentStatus === "success" && <h2>✅ Payment Successful</h2>}
+            {paymentStatus === "failed" && <h2>❌ Payment Failed</h2>}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
-
-
 
