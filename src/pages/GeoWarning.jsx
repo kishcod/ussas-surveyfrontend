@@ -114,7 +114,6 @@ export default function GeoWarning() {
       if (data.success) {
         setTransactionRef(data.reference);
         setPaymentStatus("pending");
-        setCheckout(null);
       } else {
         setPaymentStatus("failed");
       }
