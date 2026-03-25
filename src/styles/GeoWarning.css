@@ -264,5 +264,71 @@
 .download-link.active::before {
   content: "⬇ ";
 }
+.checkout-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.checkout-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkout-box input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.amount-box {
+  text-align: center;
+  background: #f5f5f5;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.checkout-box button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.checkout-box button:first-of-type {
+  background: black;
+  color: white;
+}
+
+.checkout-box button:last-of-type {
+  background: #ddd;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .checkout-box {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .checkout-box h2 {
+    font-size: 18px;
+  }
+}
 
 
