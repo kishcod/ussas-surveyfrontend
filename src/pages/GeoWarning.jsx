@@ -8,21 +8,16 @@ import catoVpnImg from "../assets/cato-vpn.png";
 
 export default function GeoWarning() {
   const navigate = useNavigate();
-
   const RATE = 125;
 
   const [checking, setChecking] = useState(true);
   const [stepIndex, setStepIndex] = useState(0);
   const [purchasedProxy, setPurchasedProxy] = useState(null);
 
+  // Modal states
+  const [modalOpen, setModalOpen] = useState(false);
   const [checkout, setCheckout] = useState(null);
-
-  const [form, setForm] = useState({
-    name: "",
-    phone: localStorage.getItem("phone") || "", // ✅ AUTO LOAD
-    reference: "",
-  });
-
+  const [form, setForm] = useState({ name: "", phone: "", reference: "" });
   const [paymentStatus, setPaymentStatus] = useState(null);
   const [transactionRef, setTransactionRef] = useState(null);
 
@@ -33,7 +28,7 @@ export default function GeoWarning() {
     "Verification completed",
   ];
 
-  /* -------- Fake verification -------- */
+  // Fake verification loader
   useEffect(() => {
     const t = setInterval(() => {
       setStepIndex((i) => (i < steps.length - 1 ? i + 1 : i));
@@ -47,7 +42,7 @@ export default function GeoWarning() {
     return () => clearInterval(t);
   }, []);
 
-  /* -------- PayPal -------- */
+  /* -------- PayPal Buttons -------- */
   useEffect(() => {
     if (window.paypal) return;
 
@@ -67,9 +62,7 @@ export default function GeoWarning() {
               purchase_units: [{ amount: { value: values[i] } }],
             }),
           onApprove: (_, actions) =>
-            actions.order.capture().then(() => {
-              setPurchasedProxy(types[i]);
-            }),
+            actions.order.capture().then(() => setPurchasedProxy(types[i])),
         }).render(`#paypal-${id}`);
       });
     };
@@ -77,21 +70,30 @@ export default function GeoWarning() {
     document.body.appendChild(script);
   }, []);
 
-  /* -------- Format phone -------- */
+  // Format phone number
   const formatPhone = (phone) => {
+    if (!phone) return "";
     if (phone.startsWith("0")) return "254" + phone.slice(1);
     if (phone.startsWith("7")) return "254" + phone;
     return phone;
   };
 
-  /* -------- STK PUSH -------- */
+  // Trigger modal when "Pay with M-Pesa" clicked
+  const openModal = (type, usd) => {
+    setCheckout({ type, usd });
+    setForm({ name: "", phone: "", reference: "" });
+    setPaymentStatus(null);
+    setModalOpen(true);
+  };
+
+  // Handle STK push
   const handleSTKPush = async () => {
     if (!form.name || !form.phone) return alert("Fill all fields");
 
     const formattedPhone = formatPhone(form.phone);
-
-    // ✅ Save for next time (auto-fill future)
     localStorage.setItem("phone", form.phone);
+
+    setPaymentStatus("processing");
 
     try {
       const res = await fetch(
@@ -114,18 +116,18 @@ export default function GeoWarning() {
         setPaymentStatus("pending");
         setCheckout(null);
       } else {
-        alert("Payment failed");
+        setPaymentStatus("failed");
       }
     } catch {
-      alert("Network error");
+      setPaymentStatus("failed");
     }
   };
 
-  /* -------- Poll payment -------- */
+  // Poll STK status
   useEffect(() => {
     if (paymentStatus !== "pending") return;
 
-    const i = setInterval(async () => {
+    const interval = setInterval(async () => {
       const res = await fetch(
         `https://usaas-survey-bc.onrender.com/api/payments/status/${transactionRef}`
       );
@@ -134,16 +136,14 @@ export default function GeoWarning() {
       if (data.status === "success") {
         setPaymentStatus("success");
         setPurchasedProxy(data.product);
-        clearInterval(i);
-      }
-
-      if (data.status === "failed") {
+        clearInterval(interval);
+      } else if (data.status === "failed") {
         setPaymentStatus("failed");
-        clearInterval(i);
+        clearInterval(interval);
       }
     }, 4000);
 
-    return () => clearInterval(i);
+    return () => clearInterval(interval);
   }, [paymentStatus]);
 
   const handleProceedWithdraw = () => {
@@ -179,14 +179,17 @@ export default function GeoWarning() {
 
           <div className="proxy-list">
 
-            {/* DC */}
+            {/* Datacenter */}
             <div className="proxy-card">
               <img src={dcProxyImg} alt="" />
               <DownloadLink />
               <h3>Datacenter Proxy</h3>
               <p>$5 (~KES {5 * RATE})</p>
               <div id="paypal-5" />
-              <button className="mpesa-btn" onClick={() => setCheckout({ type: "dc", usd: 5 })}>
+              <button
+                className="mpesa-btn"
+                onClick={() => openModal("dc", 5)}
+              >
                 📲 Pay with M-Pesa
               </button>
             </div>
@@ -198,7 +201,10 @@ export default function GeoWarning() {
               <h3>Residential Proxy</h3>
               <p>$10 (~KES {10 * RATE})</p>
               <div id="paypal-10" />
-              <button className="mpesa-btn" onClick={() => setCheckout({ type: "residential", usd: 10 })}>
+              <button
+                className="mpesa-btn"
+                onClick={() => openModal("residential", 10)}
+              >
                 📲 Pay with M-Pesa
               </button>
             </div>
@@ -210,11 +216,13 @@ export default function GeoWarning() {
               <h3>VPN</h3>
               <p>$2.5 (~KES {2.5 * RATE})</p>
               <div id="paypal-2-5" />
-              <button className="mpesa-btn" onClick={() => setCheckout({ type: "cato", usd: 2.5 })}>
+              <button
+                className="mpesa-btn"
+                onClick={() => openModal("cato", 2.5)}
+              >
                 📲 Pay with M-Pesa
               </button>
             </div>
-
           </div>
 
           {!checking && (
@@ -225,57 +233,61 @@ export default function GeoWarning() {
         </div>
       </div>
 
-      {/* CHECKOUT MODAL */}
-      {checkout && (
+      {/* STK Payment Modal */}
+      {modalOpen && (
         <div className="checkout-modal">
           <div className="checkout-box">
-            <h2>Checkout</h2>
+            {checkout && (
+              <>
+                <h2>💳 Pay with M-Pesa</h2>
+                <p>Check your phone to complete the payment</p>
+                <input
+                  placeholder="Name"
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                />
+                <input
+                  placeholder="07XXXXXXXX"
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                />
+                <input
+                  placeholder="Reference (optional)"
+                  value={form.reference}
+                  onChange={(e) => setForm({ ...form, reference: e.target.value })}
+                />
 
-            <input
-              placeholder="Name"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-            />
+                <div className="amount-box">
+                  <h2>KES {calcKES}</h2>
+                  <span>${checkout.usd} × {RATE}</span>
+                </div>
 
-            <input
-              placeholder="07XXXXXXXX"
-              value={form.phone}
-              onChange={(e) => setForm({ ...form, phone: e.target.value })}
-            />
+                <button className="pay-btn" onClick={handleSTKPush}>
+                  Pay Now
+                </button>
+                <button className="cancel-btn" onClick={() => setModalOpen(false)}>
+                  Cancel
+                </button>
+              </>
+            )}
 
-            <input
-              placeholder="Reference (optional)"
-              value={form.reference}
-              onChange={(e) => setForm({ ...form, reference: e.target.value })}
-            />
-
-            <div className="amount-box">
-              <h2>KES {calcKES}</h2>
-              <span>${checkout.usd} × {RATE}</span>
-            </div>
-
-            <button className="pay-btn" onClick={handleSTKPush}>
-              Pay Now
-            </button>
-
-            <button className="cancel-btn" onClick={() => setCheckout(null)}>
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* PAYMENT STATUS */}
-      {paymentStatus && (
-        <div className="payment-status">
-          <div className="status-box">
-            {paymentStatus === "pending" && <h2>📲 Waiting for payment...</h2>}
-            {paymentStatus === "success" && <h2>✅ Payment Successful</h2>}
-            {paymentStatus === "failed" && <h2>❌ Payment Failed</h2>}
+            {paymentStatus && (
+              <>
+                {paymentStatus === "processing" && <h2>⏳ Processing...</h2>}
+                {paymentStatus === "pending" && (
+                  <>
+                    <h2>📲 Waiting for payment</h2>
+                    <p>Check your phone to complete the transaction</p>
+                  </>
+                )}
+                {paymentStatus === "success" && <h2>✅ Payment Successful</h2>}
+                {paymentStatus === "failed" && <h2>❌ Payment Failed</h2>}
+                <button onClick={() => {setPaymentStatus(null); setModalOpen(false)}}>Close</button>
+              </>
+            )}
           </div>
         </div>
       )}
     </div>
   );
 }
-
