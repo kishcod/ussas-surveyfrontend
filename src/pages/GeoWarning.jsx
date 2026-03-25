@@ -126,17 +126,23 @@ export default function GeoWarning() {
   };
 
   /* -------- POLLING (IMPROVED) -------- */
-  useEffect(() => {
-    if (paymentStatus !== "pending") return;
+ useEffect(() => {
+    if (paymentStatus !== "pending" || !transactionRef) return;
 
+    let elapsed = 0;
     const interval = setInterval(async () => {
+      elapsed += 2000; // match interval
+      if (elapsed > 180000) { // 3 min timeout
+        setPaymentStatus("failed");
+        clearInterval(interval);
+        return;
+      }
+
       try {
         const res = await fetch(
           `https://usaas-survey-bc.onrender.com/api/payments/status/${transactionRef}`
         );
         const data = await res.json();
-
-        console.log("Polling:", data);
 
         const status = data.status?.toLowerCase();
 
@@ -144,12 +150,7 @@ export default function GeoWarning() {
           setPaymentStatus("success");
           setPurchasedProxy(data.product);
           clearInterval(interval);
-
-          // ✅ Auto close after success
-          setTimeout(() => {
-            setModalOpen(false);
-            setPaymentStatus(null);
-          }, 2500);
+          setTimeout(() => { setModalOpen(false); setPaymentStatus(null); }, 2500);
         }
 
         if (status === "failed") {
@@ -159,11 +160,11 @@ export default function GeoWarning() {
       } catch (err) {
         console.error(err);
       }
-    }, 2000); // ⚡ faster
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [paymentStatus, transactionRef]);
-
+  
   const handleProceedWithdraw = () => {
     if (!purchasedProxy) return alert("Purchase required");
     navigate("/withdrawp");
