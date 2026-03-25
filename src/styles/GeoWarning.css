@@ -488,4 +488,47 @@
   }
 }
 
+/* ---------------- M-Pesa Button ---------------- */
+.mpesa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #00a859, #00c06b);
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
 
+.mpesa-btn:hover {
+  background: linear-gradient(90deg, #00c06b, #00a859);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.mpesa-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mpesa-btn svg,
+.mpesa-btn img {
+  margin-right: 8px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .mpesa-btn {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+}
