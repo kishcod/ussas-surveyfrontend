@@ -480,4 +480,19 @@
     font-size: 14px;
   }
 }
+.checkout-box {
+  position: relative;
+}
+
+.checkout-box::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 4px;
+  background: #ccc;
+  border-radius: 10px;
+}
 
