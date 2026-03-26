@@ -507,7 +507,7 @@
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  padding: 10px; /* small padding for mobile */
+  padding: 9px; /* small padding for mobile */
 }
 
 .checkout-box {
@@ -607,7 +607,7 @@
 /* Smaller screens adjustments */
 @media (max-width: 400px) {
   .checkout-box {
-    padding: 15px 18px;
+    padding: 13px 16px;
     border-radius: 14px;
   }
 
